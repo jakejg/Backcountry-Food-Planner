@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Trip Info</h1>
+<div class="container">
+<form method="POST">
+    {% include 'form.html' %}
+  
+    <button class="btn btn-primary" type="submit">Select Meals</button>
+</form>
+</div>
+{% endblock %}
