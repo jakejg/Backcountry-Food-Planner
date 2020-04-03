@@ -47,46 +47,45 @@ class Trip(db.Model):
     def get_bc_days(self):
         return (self.end_date - self.start_date).days - 1
 
-    # @classmethod
-    # def get_start_day_meals(start_time):
-    #     """Get number of meals for the first day"""
+    def get_meal_numbers(self):
+        """Get numbers for each type of meal"""
 
-    #     start_day_meals = 3
+        bc_meals = self.get_bc_days()
 
-    #     if start_time.hour > 7:
-    #         meals -= 1
-    #     elif start_time.hour > 13:
-    #         meals -= 2
-    #     elif star_time.hour > 18:
-    #         meals -= 3
+        breakfasts = bc_meals 
+        lunches = bc_meals 
+        dinners = bc_meals 
+
+        # add start day meals
+        if self.start_time.hour < 13:
+            lunches += 1
+            dinners += 1
+
+        elif self.start_time.hour < 19:
+            dinners += 1
+
+        # add end day meals
+        if self.end_time.hour < 12:
+            breakfasts += 1
+
+        elif self.end_time.hour < 18:
+            breakfasts += 1
+            lunches += 1
         
-    #     return start_day_meals
-    # @classmethod
-    # def get_end_day_meals(end_time):
-    #     """Get number of meals for the last day"""
+        else:
+            breakfasts += 1
+            lunches += 1
+            dinners += 1
 
-    #     end_day_meals = 3
+        return = {
+            "total_meals": breakfasts + lunches + dinners,
+            "breakfasts" : breakfasts,
+            "lunches" : lunches,
+            "dinners" : dinners,
+        }
 
-    #     if end_time.hour < 18:
-    #         meals -= 1
-    #     if end_time.hour < 12:
-    #         meals -=2
+        
 
-    #     return end_day_meals
-
-    # @classmethod
-    # def get_meal_info():
-    #     bc_meals = Trip.get_bc_days()*3
-
-    #     meal_info = {
-    #         "total_meals": Trip.get_start_meals() + Trip.get_end_day_meals(),
-    #         "breakfasts" : bc_meals
-
-
-    #     }
-
-
-   
 
 
 class Meal(db.Model):
