@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Create your menu</h1>
+<h3 class="text-center">You will need {{meal_data["total_meals"]}} meals.</h3>
+<ul>
+    <li>{{meal_data["breakfasts"]}} Breakfasts</li>
+    <li>{{meal_data["lunches"]}} Lunches</li>
+    <li>{{meal_data["dinners"]}} Dinners</li>
+</ul>
+<div class="container">
+    <form method="POST">
+        {{ form.hidden_tag() }} 
+  
+        {% for field in form 
+               if field.widget.input_type != 'hidden' %}
+            <div class="form-group">
+            {{ field.label }}
+            {{ field(class_="form-control") }}
+      
+            {% for error in field.errors %}
+              <small>{{ error }}</small>
+            {% endfor %}
+        </div>
+      
+        {% endfor %}
+      
+        <button class="btn btn-primary" type="submit">Select Meals</button>
+    </form>
+</div>
+{% endblock %}

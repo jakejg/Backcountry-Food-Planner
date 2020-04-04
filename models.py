@@ -77,7 +77,7 @@ class Trip(db.Model):
             lunches += 1
             dinners += 1
 
-        return = {
+        return {
             "total_meals": breakfasts + lunches + dinners,
             "breakfasts" : breakfasts,
             "lunches" : lunches,
@@ -102,9 +102,9 @@ class Meal(db.Model):
                                     nullable=False)
     secondary_ingredient = db.Column(db.Text)
 
-    additional_ingredint1 = db.Column(db.Text)
+    additional_ingredient1 = db.Column(db.Text)
 
-    additional_ingredint2 = db.Column(db.Text)
+    additional_ingredient2 = db.Column(db.Text)
 
     weight = db.Column(db.Text)
 
