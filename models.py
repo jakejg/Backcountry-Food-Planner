@@ -84,9 +84,6 @@ class Trip(db.Model):
             "dinners" : dinners,
         }
 
-        
-
-
 
 class Meal(db.Model):
     
@@ -106,17 +103,44 @@ class Meal(db.Model):
 
     additional_ingredient2 = db.Column(db.Text)
 
-    weight = db.Column(db.Text)
+    weight = db.Column(db.Float,
+                        default=2.1)
 
-    calories = db.Column(db.Integer)
+    def get_ingredient_weights(self):
+        p = self.primary_ingredient
+        s = self.secondary_ingredient 
+        a1 = self.additional_ingredient1 
+        a2 = self.additional_ingredient2
 
-    fiber = db.Column(db.Integer)
+        ingredients = [p, s, a1, a2]
 
-    protein = db.Column(db.Integer)
+        weights = {}
+        
+        if ingredients[3]:
+            weights[p] = self.weight*.375
+            weights[s] = self.weight*.375
+            weights[a1] = self.weight*.125
+            weights[a2] = self.weight*.125
 
-    sugar = db.Column(db.Integer)
+        elif ingredients[2]:
+            weights[p] = self.weight*.375
+            weights[s] = self.weight*.375
+            weights[a1] = self.weight*.25
 
-    fat = db.Column(db.Integer)
+        elif ingredients[1]:
+            weights[p] = self.weight*.5
+            weights[s] = self.weight*.5
+        else:
+            weights[p] = self.weight
+        
+        rounded = {key: round(val, 2) for key, val in weights.items()}
+        
+        return rounded
+
+
+    # def get_nutrition_info(self)
+
+    #     requests.get("http://", params={"min":1, "max": 100}).json()
 
 
 class TripMeal(db.Model):
