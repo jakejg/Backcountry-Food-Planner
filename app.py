@@ -20,10 +20,8 @@ def home():
     form = TripForm()
 
     if form.validate_on_submit():
-        trip = Trip(start_date=form.start_date.data,
-                    start_time=form.start_time.data,
-                    end_date=form.end_date.data,
-                    end_time=form.end_time.data,
+        trip = Trip(start_date_time=form.start_date_time.data,
+                    end_date_time=form.end_date_time.data,
                     number_of_people=form.number_of_people.data)
         db.session.add(trip)
         db.session.commit()

@@ -18,7 +18,11 @@ class User(db.Model):
     username = db.Column(db.Text, 
                         unique=True,
                         nullable=False)
+<<<<<<< HEAD
     email = db.Column(db.Text, 
+=======
+    email = db.Column(db.Text,
+>>>>>>> datetime
                     unique=True,
                     nullable=False)
     password = db.Column(db.Text, 
@@ -34,13 +38,9 @@ class Trip(db.Model):
 
     name = db.Column(db.Text)
 
-    start_date = db.Column(db.Date,
+    start_date_time = db.Column(db.DateTime,
                                 nullable=False)
-    start_time = db.Column(db.Time,
-                                nullable=False)
-    end_date = db.Column(db.Date,
-                                nullable=False)
-    end_time = db.Column(db.Time,
+    end_date_time = db.Column(db.DateTime,
                                 nullable=False)
     number_of_people = db.Column(db.Integer,
                                 nullable=False)
@@ -50,7 +50,7 @@ class Trip(db.Model):
     meals = db.relationship('Meal', secondary='trip_meal', backref='user')
 
     def get_bc_days(self):
-        return (self.end_date - self.start_date).days - 1
+        return (self.end_date_time - self.start_date_time).days - 1
 
     def get_meal_numbers(self):
         """Get numbers for each type of meal"""
@@ -62,18 +62,18 @@ class Trip(db.Model):
         dinners = bc_meals 
 
         # add start day meals
-        if self.start_time.hour < 13:
+        if self.start_date_time.hour < 13:
             lunches += 1
             dinners += 1
 
-        elif self.start_time.hour < 19:
+        elif self.start_date_time.hour < 19:
             dinners += 1
 
         # add end day meals
-        if self.end_time.hour < 12:
+        if self.end_date_time.hour < 12:
             breakfasts += 1
 
-        elif self.end_time.hour < 18:
+        elif self.end_date_time.hour < 18:
             breakfasts += 1
             lunches += 1
         
@@ -144,9 +144,15 @@ class Meal(db.Model):
 
     def get_nutrition_info(self):
         get_fdcID()
+<<<<<<< HEAD
 
         
 
+=======
+
+        
+
+>>>>>>> datetime
     def get_fdcID():
         foods = self.get_ingredient_weights()
 
