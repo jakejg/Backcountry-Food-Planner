@@ -171,17 +171,30 @@ class Ingredient(db.Model):
 
     ingredient_list = db.Column(db.Text)
 
-    calories = db.Column(db.Float)
+    fat = db.Column(db.Float)
+
+    saturated_fat = db.Column(db.Float)
+
+    trans_fat = db.Column(db.Float)
+
+    cholesterol = db.Column(db.Float)
+
+    sodium = db.Column(db.Float)
+
+    carbohydrates = db.Column(db.Float)
 
     fiber = db.Column(db.Float)
 
-    sugar = db.Column(db.Float)
-
-    fat = db.Column(db.Float)
+    sugars = db.Column(db.Float)
 
     protein = db.Column(db.Float)
 
-    sodium = db.Column(db.Float)
+    calcium = db.Column(db.Float)
+
+    iron = db.Column(db.Float)
+
+    calories = db.Column(db.Float)
+
 
 class MealIngredient(db.Model):
 
