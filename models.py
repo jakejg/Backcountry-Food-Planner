@@ -18,11 +18,7 @@ class User(db.Model):
     username = db.Column(db.Text, 
                         unique=True,
                         nullable=False)
-<<<<<<< HEAD
-    email = db.Column(db.Text, 
-=======
     email = db.Column(db.Text,
->>>>>>> datetime
                     unique=True,
                     nullable=False)
     password = db.Column(db.Text, 
@@ -89,7 +85,6 @@ class Trip(db.Model):
             "dinners" : dinners,
         }
 
-
 class Meal(db.Model):
     
     __tablename__ = "meals"
@@ -107,6 +102,8 @@ class Meal(db.Model):
     additional_ingredient1 = db.Column(db.Text)
 
     additional_ingredient2 = db.Column(db.Text)
+
+    ingredients = db.relationship('Ingredient', secondary='meal_ingredient', backref='meals')
 
     weight = db.Column(db.Float,
                         default=2.1)
@@ -144,15 +141,9 @@ class Meal(db.Model):
 
     def get_nutrition_info(self):
         get_fdcID()
-<<<<<<< HEAD
 
         
 
-=======
-
-        
-
->>>>>>> datetime
     def get_fdcID():
         foods = self.get_ingredient_weights()
 
@@ -163,7 +154,45 @@ class Meal(db.Model):
             
             import pdb; pdb.set_trace()
             food_ids.append()
-        
+
+class Ingredient(db.Model):
+
+    __tablename__ = "ingredients"
+
+    id = db.Column(db.Integer,
+                    primary_key=True)
+    
+    name = db.Column(db.Text)
+
+    fdcId = db.Column(db.Integer)
+
+    description = db.Column(db.Text)
+
+    brand = db.Column(db.Text)
+
+    ingredient_list = db.Column(db.Text)
+
+    calories = db.Column(db.Float)
+
+    fiber = db.Column(db.Float)
+
+    sugar = db.Column(db.Float)
+
+    fat = db.Column(db.Float)
+
+    protein = db.Column(db.Float)
+
+    sodium = db.Column(db.Float)
+
+class MealIngredient(db.Model):
+
+     __tablename__ = "meal_ingredient"
+    
+    id = db.Column(db.Integer,
+                    primary_key=True)
+    meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'))
+
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
 
 
 class TripMeal(db.Model):
