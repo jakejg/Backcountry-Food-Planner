@@ -1,7 +1,7 @@
 import os
 import requests
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
-from models import db, connect_db, Trip, Meal, User, TripMeal
+from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
 from datetime import date, time
 from forms import TripForm, SelectMealForm, SelectField, CreateMealForm
 from api_key import fdc_key
@@ -70,13 +70,10 @@ def show_meal_plan(trip_id):
 def create_a_meal():
     form = CreateMealForm()
 
-    # if form.validate_on_submit():
-    #     for k
-    #     get_nutrition_info()
-        
-    #     import pdb; pdb.set_trace()
-
-    #     db.session.commit() 
+    if form.validate_on_submit():
+        for key, value in form.data.items():
+            if key != 'csrf_token' or not value:
+                get_nutrition_info(value)
 
 
     return render_template('create_meal.html', form=form)
@@ -122,12 +119,30 @@ def search_for_a_food(params):
 def get_nutrition_info(fdc_id):
     base_url = f"https://api.nal.usda.gov/fdc/v1/food/{fdc_id}?api_key={fdc_key}"
 
-    resp = requests.get(base_url, params).json()
-
-
-
-   
+    resp = requests.get(base_url).json()
     
-        
+    if resp['foodClass'] == "Branded":
+        n = resp['labelNutrients']
+        ingredient = Ingredient(name=resp['description'],
+                                 fdcId=resp['fdcId'],
+                                 brand=resp['brandOwner'],
+                                 ingredient_list=resp['ingredients'],
+                                 fat=n['fat']['value'])
+        db.session.add(ingredient)
+        db.session.commit()
+        import pdb; pdb.set_trace()
+             
+        #                          saturated_fat=n.saturatedFat.value,
+        #                          trans_fat=n.transFat.value,
+        #                          cholesterol=n.cholesterol.value,
+        #                          sodium=n.sodium.value,
+        #                          carbohydrates=n.carbohydrates.value,
+        #                          fiber=n.fiber.value,
+        #                          sugars=n.sugars.value,
+        #                          protein=n.protein.value,
+        #                          calcium=n.calcium.value,
+        #                          iron=n.iron.value,
+        #                          calories=n.calories.value)
+       
+        # import pdb; pdb.set_trace()
     
-  
