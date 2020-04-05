@@ -1,3 +1,5 @@
+import requests
+from api_key import fdc_key
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,8 +15,11 @@ class User(db.Model):
                     primary_key=True)
     first_name = db.Column(db.Text)
     last_name = db.Column(db.Text)
-    username = db.Column(db.Text)
-    email = db.Column(db.Text,
+    username = db.Column(db.Text, 
+                        unique=True,
+                        nullable=False)
+    email = db.Column(db.Text, 
+                    unique=True,
                     nullable=False)
     password = db.Column(db.Text, 
                         nullable=False)
@@ -137,10 +142,22 @@ class Meal(db.Model):
         
         return rounded
 
+    def get_nutrition_info(self):
+        get_fdcID()
 
-    # def get_nutrition_info(self)
+        
 
-    #     requests.get("http://", params={"min":1, "max": 100}).json()
+    def get_fdcID():
+        foods = self.get_ingredient_weights()
+
+        food_ids = []
+        for food, weight in foods.items():
+            resp = requests.get("https://api.nal.usda.gov/fdc/v1/foods/search", 
+                                params={"api_key": fdc_key, "query": food }).json()
+            
+            import pdb; pdb.set_trace()
+            food_ids.append()
+        
 
 
 class TripMeal(db.Model):

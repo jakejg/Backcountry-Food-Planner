@@ -4,6 +4,8 @@ from models import Meal
 db.drop_all()
 db.create_all()
 
+
+
 # breakfast
 b1 = Meal(title="Oatmeal", 
         type_="breakfast", 

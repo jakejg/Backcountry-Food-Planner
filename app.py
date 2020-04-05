@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgres:///food_planner'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 connect_db(app)
@@ -52,13 +52,19 @@ def select_meals(trip_id):
                 r = TripMeal(trip_id=trip.id, meal_id=form[key].data)
                 db.session.add(r)
 
-        db.session.commit()
-        
-        import pdb; pdb.set_trace()
-    
-
+        db.session.commit() 
+        return redirect(url_for('show_meal_plan'))
 
     return render_template('select_meals.html', meal_data=meal_data, form=form)
+
+@app.route('/meal-plan/<int:trip_id>')
+def show_meal_plan(trip_id):
+    trip = Trip.query.get_or_404(trip_id)
+    
+    # for meal in trip.meals:
+    #     meal.get_ingredient_weights()
+    #     meal.get_nutrition_info()
+
 
 def populate_select_meal_form(meal_data):
     """Add fields to the select meal form for each meal"""
