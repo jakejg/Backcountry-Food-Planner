@@ -1,5 +1,4 @@
 import requests
-from api_key import fdc_key
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 
@@ -139,21 +138,21 @@ class Meal(db.Model):
         
         return rounded
 
-    def get_nutrition_info(self):
-        get_fdcID()
+    # def get_nutrition_info(self):
+    #     get_fdcID()
 
         
 
-    def get_fdcID():
-        foods = self.get_ingredient_weights()
+    # def get_fdcID():
+    #     foods = self.get_ingredient_weights()
 
-        food_ids = []
-        for food, weight in foods.items():
-            resp = requests.get("https://api.nal.usda.gov/fdc/v1/foods/search", 
-                                params={"api_key": fdc_key, "query": food }).json()
+    #     food_ids = []
+    #     for food, weight in foods.items():
+    #         resp = requests.get("https://api.nal.usda.gov/fdc/v1/foods/search", 
+    #                             params={"api_key": fdc_key, "query": food }).json()
             
-            import pdb; pdb.set_trace()
-            food_ids.append()
+    #         import pdb; pdb.set_trace()
+    #         food_ids.append()
 
 class Ingredient(db.Model):
 
@@ -186,10 +185,10 @@ class Ingredient(db.Model):
 
 class MealIngredient(db.Model):
 
-     __tablename__ = "meal_ingredient"
+    __tablename__ = "meal_ingredient"
     
-    id = db.Column(db.Integer,
-                    primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'))
 
     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))

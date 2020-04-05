@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField 
+from wtforms import StringField, PasswordField, HiddenField
 from wtforms_components import TimeField, StringField, IntegerField, SelectField, DateTimeField
 from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import DataRequired, Email, Length
@@ -17,8 +17,13 @@ class TripForm(FlaskForm):
 class SelectMealForm(FlaskForm):
     """Form for selecting meals from a list"""
 
+class CreateMealForm(FlaskForm):
 
-
+    first_i = HiddenField()
+    second_i = HiddenField()
+    third_i = HiddenField()
+    fourth_i = HiddenField()
+    
 
 # add dynamic fields
     

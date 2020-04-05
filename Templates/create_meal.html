@@ -4,14 +4,41 @@
 {% block content %}
 <h1 class="text-center">Create a Meal</h1>
 <div class="container">
-    <form>
+    <form id="search">
         <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          <label for="food">Search for a food</label>
+          <input type="text" class="form-control" id="food"  placeholder="Try rice or fig bar">
+          <small id="emailHelp" class="form-text text-muted"></small>
         </div>
+        <div class="form-group">
+            <label for="brand">Brand Name (Optional)</label>
+            <input type="text" class="form-control" id="brand"  placeholder="Like Lotus Foods">
+            <small id="emailHelp" class="form-text text-muted"></small>
+          </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
+</div>
+<div class="container">
+    <h4>My Ingredients</h4>
+    <small>Please select up to four ingredients. The first two ingredients will make up the bulk of the mail, the last two ingrdients are supplimental.</small>
+    <ul id="meal-list">
+    </ul>
+    <form id="send-ids" method="POST">
+      {{ form.hidden_tag() }} 
+  
+      {% for field in form
+             if field.widget.input_type != 'hidden' %}
+          <div class="form-group">
+          {{ field.label }}
+          {{ field(class_="form-control") }}
+      </div>
+      {% endfor %}
+        <button class="btn btn-success">Create Meal</button>
+    </form>
+</div>
+<div class="container">
+    <ul id="search-list"></ul>
+    </ul>
 </div>
 {% endblock %}
 

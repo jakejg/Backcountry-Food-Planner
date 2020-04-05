@@ -1,8 +1,10 @@
 import os
+import requests
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from models import db, connect_db, Trip, Meal, User, TripMeal
 from datetime import date, time
-from forms import TripForm, SelectMealForm, SelectField
+from forms import TripForm, SelectMealForm, SelectField, CreateMealForm
+from api_key import fdc_key
 
 app = Flask(__name__)
 
@@ -64,6 +66,32 @@ def show_meal_plan(trip_id):
     #     meal.get_nutrition_info()
 
 
+@app.route('/meal', methods=["GET", "POST"])
+def create_a_meal():
+    form = CreateMealForm()
+
+    # if form.validate_on_submit():
+    #     for k
+    #     get_nutrition_info()
+        
+    #     import pdb; pdb.set_trace()
+
+    #     db.session.commit() 
+
+
+    return render_template('create_meal.html', form=form)
+
+
+
+@app.route('/meal/api', methods=["POST"])
+def api():
+    """Get search term from create meal form, and return data"""
+
+    params = request.json['params']
+
+    return search_for_a_food(params)
+    
+
 def populate_select_meal_form(meal_data):
     """Add fields to the select meal form for each meal"""
     fields = {}
@@ -81,6 +109,23 @@ def populate_select_meal_form(meal_data):
         setattr(SelectMealForm, key, SelectField(value, coerce=int))
     
     return fields
+
+def search_for_a_food(params):
+    """Make  make search request to fdc api"""
+
+    base_url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={fdc_key}"
+
+    resp = requests.get(base_url, params).json()
+
+    return resp
+
+def get_nutrition_info(fdc_id):
+    base_url = f"https://api.nal.usda.gov/fdc/v1/food/{fdc_id}?api_key={fdc_key}"
+
+    resp = requests.get(base_url, params).json()
+
+
+
    
     
         
