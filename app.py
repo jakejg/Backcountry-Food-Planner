@@ -72,9 +72,8 @@ def create_a_meal():
 
     if form.validate_on_submit():
         for key, value in form.data.items():
-            if key != 'csrf_token' or not value:
-                get_nutrition_info(value)
-
+            if key != 'csrf_token' and value:
+                create_ingredient(get_nutrition_info(value))
 
     return render_template('create_meal.html', form=form)
 
@@ -117,32 +116,36 @@ def search_for_a_food(params):
     return resp
 
 def get_nutrition_info(fdc_id):
+    """Get nutrition info for an ingredient with an id"""
+
     base_url = f"https://api.nal.usda.gov/fdc/v1/food/{fdc_id}?api_key={fdc_key}"
 
     resp = requests.get(base_url).json()
-    
-    if resp['foodClass'] == "Branded":
-        n = resp['labelNutrients']
-        ingredient = Ingredient(name=resp['description'],
-                                 fdcId=resp['fdcId'],
-                                 brand=resp['brandOwner'],
-                                 ingredient_list=resp['ingredients'],
-                                 fat=n['fat']['value'])
+   
+    return resp
+
+def create_ingredient(response):
+    """Create a new ingredient with nutrition info"""
+
+    if response['foodClass'] == "Branded":
+        n = response['labelNutrients']
+        ingredient = Ingredient(name=response['description'],
+                                 fdcId=response['fdcId'],
+                                 brand=response['brandOwner'],
+                                 ingredient_list=response['ingredients'],
+                                 fat=n['fat']['value'],
+                                 saturated_fat=n['saturatedFat']['value'],
+                                 trans_fat=n['transFat']['value'],
+                                 cholesterol=n['cholesterol']['value'],
+                                 sodium=n['sodium']['value'],
+                                 carbohydrates=n['carbohydrates']['value'],
+                                 fiber=n['fiber']['value'],
+                                 sugars=n['sugars']['value'],
+                                 protein=n['protein']['value'],
+                                 calcium=n['calcium']['value'],
+                                 iron=n['iron']['value'],
+                                 calories=n['calories']['value'])
         db.session.add(ingredient)
         db.session.commit()
-        import pdb; pdb.set_trace()
-             
-        #                          saturated_fat=n.saturatedFat.value,
-        #                          trans_fat=n.transFat.value,
-        #                          cholesterol=n.cholesterol.value,
-        #                          sodium=n.sodium.value,
-        #                          carbohydrates=n.carbohydrates.value,
-        #                          fiber=n.fiber.value,
-        #                          sugars=n.sugars.value,
-        #                          protein=n.protein.value,
-        #                          calcium=n.calcium.value,
-        #                          iron=n.iron.value,
-        #                          calories=n.calories.value)
-       
-        # import pdb; pdb.set_trace()
+        return ingredient
     

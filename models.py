@@ -165,8 +165,6 @@ class Ingredient(db.Model):
 
     fdcId = db.Column(db.Integer)
 
-    description = db.Column(db.Text)
-
     brand = db.Column(db.Text)
 
     ingredient_list = db.Column(db.Text)
