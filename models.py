@@ -94,65 +94,40 @@ class Meal(db.Model):
                         nullable=False)
     type_ = db.Column(db.Text,
                         nullable=False)
-    primary_ingredient = db.Column(db.Text)
     
-    secondary_ingredient = db.Column(db.Text)
-
-    additional_ingredient1 = db.Column(db.Text)
-
-    additional_ingredient2 = db.Column(db.Text)
-
     ingredients = db.relationship('Ingredient', secondary='meal_ingredient', backref='meals')
 
     weight = db.Column(db.Float,
                         default=2.1)
 
     def get_ingredient_weights(self):
-        p = self.primary_ingredient
-        s = self.secondary_ingredient 
-        a1 = self.additional_ingredient1 
-        a2 = self.additional_ingredient2
-
-        ingredients = [p, s, a1, a2]
-
+        ing = self.ingredients
+     
         weights = {}
         
-        if ingredients[3]:
-            weights[p] = self.weight*.375
-            weights[s] = self.weight*.375
-            weights[a1] = self.weight*.125
-            weights[a2] = self.weight*.125
+        if len(ing) == 4:
+            p,s,a1,a2 = ing
+            weights[p.name] = self.weight*.375
+            weights[s.name] = self.weight*.375
+            weights[a1.name] = self.weight*.125
+            weights[a2.name] = self.weight*.125
 
-        elif ingredients[2]:
-            weights[p] = self.weight*.375
-            weights[s] = self.weight*.375
-            weights[a1] = self.weight*.25
+        elif len(ing) == 3:
+            p,s,a1 = ing
+            weights[p.name] = self.weight*.375
+            weights[s.name] = self.weight*.375
+            weights[a1.name] = self.weight*.25
 
-        elif ingredients[1]:
-            weights[p] = self.weight*.5
-            weights[s] = self.weight*.5
+        elif len(ing) == 2:
+            p,s = ing
+            weights[p.name] = self.weight*.5
+            weights[s.name] = self.weight*.5
         else:
-            weights[p] = self.weight
+            weights[p.name] = self.weight
         
         rounded = {key: round(val, 2) for key, val in weights.items()}
         
         return rounded
-
-    # def get_nutrition_info(self):
-    #     get_fdcID()
-
-        
-
-    # def get_fdcID():
-    #     foods = self.get_ingredient_weights()
-
-    #     food_ids = []
-    #     for food, weight in foods.items():
-    #         resp = requests.get("https://api.nal.usda.gov/fdc/v1/foods/search", 
-    #                             params={"api_key": fdc_key, "query": food }).json()
-            
-    #         import pdb; pdb.set_trace()
-    #         food_ids.append()
 
 class Ingredient(db.Model):
 
