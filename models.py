@@ -90,12 +90,12 @@ class Meal(db.Model):
 
     id = db.Column(db.Integer,
                     primary_key=True)
-    title = db.Column(db.Text)
-
-    type_ = db.Column(db.Text)
-
-    primary_ingredient = db.Column(db.Text,
-                                    nullable=False)
+    title = db.Column(db.Text,
+                        nullable=False)
+    type_ = db.Column(db.Text,
+                        nullable=False)
+    primary_ingredient = db.Column(db.Text)
+    
     secondary_ingredient = db.Column(db.Text)
 
     additional_ingredient1 = db.Column(db.Text)

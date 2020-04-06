@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, HiddenField
 from wtforms_components import TimeField, StringField, IntegerField, SelectField, DateTimeField
 from wtforms.fields.html5 import DateTimeLocalField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Email, Length, AnyOf
 
 
 
@@ -23,6 +23,8 @@ class CreateMealForm(FlaskForm):
     second_i = HiddenField()
     third_i = HiddenField()
     fourth_i = HiddenField()
+    title = StringField('Name of Meal', validators=[DataRequired()])
+    type_ = StringField('Type of Meal', validators=[DataRequired(), AnyOf(["breakfast", "lunch", "dinner"], message="You Must pick breakfast, lunch, or dinner")])
     
 
 # add dynamic fields

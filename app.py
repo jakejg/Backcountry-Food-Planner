@@ -67,17 +67,21 @@ def show_meal_plan(trip_id):
 
 
 @app.route('/meal', methods=["GET", "POST"])
-def create_a_meal():
+def show_create_a_meal_page():
     form = CreateMealForm()
 
-    if form.validate_on_submit():
+    if form.validate_on_submit():  
+    
+        meal = create_meal(form.title.data, form.type_.data)
+        
         for key, value in form.data.items():
-            if key != 'csrf_token' and value:
-                create_ingredient(get_nutrition_info(value))
+            
+            if key != 'csrf_token' and key != 'title' and key !='type_' and value:
+                ingr = create_ingredient(get_nutrition_info(value))
+                meal.ingredients.append(ingr)
+                db.session.commit()
 
     return render_template('create_meal.html', form=form)
-
-
 
 @app.route('/meal/api', methods=["POST"])
 def api():
@@ -153,4 +157,8 @@ def create_ingredient(response):
             db.session.commit()
 
     return ingredient
+
+def create_meal(title, type_):
+    return Meal(title=title, type_=type_)
+
     

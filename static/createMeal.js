@@ -1,15 +1,16 @@
-$('#search').on('submit', handlesubmit)
-$('#send-ids').on('submit', addFoodIds)
-
+$mealForm = $('#send-ids')
 $searchList = $('#search-list')
-$searchList.on('click', 'li', selectFood)
+
 SELECTED_FOODS = []
 
 BASE_URL = `http://${location.host}/meal/api`
 
 // clear send-ids form values
-for (let i=1; i<5; i++){
-    $( `#send-ids input:nth-child(${i})`).val('')
+for (let i=0; i<4; i++){
+    
+    let input = $mealForm.children()
+
+    $(input[i]).val('')
 }
 
 async function handlesubmit(evt){
@@ -65,9 +66,16 @@ function addFoodIds(evt){
 
     //add values to form inputs
     for (let i=0; i<SELECTED_FOODS.length; i++){
-        $( `#send-ids input:nth-child(${i+1})`).val(SELECTED_FOODS[i])
+
+        let input = $mealForm.children()
+
+        $(input[i]).val(SELECTED_FOODS[i])
     }
-    
-    $('#send-ids')[0].submit()
+
+    $mealForm[0].submit()
 
 }
+
+$mealForm.on('submit', addFoodIds)
+$('#search').on('submit', handlesubmit)
+$searchList.on('click', 'li', selectFood)
