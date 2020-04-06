@@ -125,27 +125,32 @@ def get_nutrition_info(fdc_id):
     return resp
 
 def create_ingredient(response):
-    """Create a new ingredient with nutrition info"""
+    """Check if ingredient exists and if not 
+     create a new ingredient with nutrition info"""
 
-    if response['foodClass'] == "Branded":
-        n = response['labelNutrients']
-        ingredient = Ingredient(name=response['description'],
-                                 fdcId=response['fdcId'],
-                                 brand=response['brandOwner'],
-                                 ingredient_list=response['ingredients'],
-                                 fat=n['fat']['value'],
-                                 saturated_fat=n['saturatedFat']['value'],
-                                 trans_fat=n['transFat']['value'],
-                                 cholesterol=n['cholesterol']['value'],
-                                 sodium=n['sodium']['value'],
-                                 carbohydrates=n['carbohydrates']['value'],
-                                 fiber=n['fiber']['value'],
-                                 sugars=n['sugars']['value'],
-                                 protein=n['protein']['value'],
-                                 calcium=n['calcium']['value'],
-                                 iron=n['iron']['value'],
-                                 calories=n['calories']['value'])
-        db.session.add(ingredient)
-        db.session.commit()
-        return ingredient
+    ingredient = Ingredient.query.filter_by(fdcId=response['fdcId']).first()
+
+    if ingredient is None:
+        if response['foodClass'] == "Branded":
+            n = response['labelNutrients']
+            ingredient = Ingredient(name=response['description'],
+                                     fdcId=response['fdcId'],
+                                     brand=response['brandOwner'],
+                                     ingredient_list=response.get('ingredients', "No Ingredients Listed"),
+                                     fat=n.get('fat', 0).get('value', 0),
+                                     saturated_fat=n.get('saturatedFat', {}).get('value',0),
+                                     trans_fat=n.get('transFat', {}).get('value',0),
+                                     cholesterol=n.get('cholesterol', {}).get('value',0),
+                                     sodium=n.get('sodium', {}).get('value',0),
+                                     carbohydrates=n.get('carbohydrates', {}).get('value',0),
+                                     fiber=n.get('fiber', {}).get('value',0),
+                                     sugars=n.get('sugars', {}).get('value',0),
+                                     protein=n.get('protein', {}).get('value',0),
+                                     calcium=n.get('calcium', {}).get('value',0),
+                                     iron=n.get('iron', {}).get('value',0),
+                                     calories=n.get('calories', {}).get('value',0))
+            db.session.add(ingredient)
+            db.session.commit()
+
+    return ingredient
     

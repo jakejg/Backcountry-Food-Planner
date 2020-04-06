@@ -7,13 +7,18 @@ SELECTED_FOODS = []
 
 BASE_URL = `http://${location.host}/meal/api`
 
+// clear send-ids form values
+for (let i=1; i<5; i++){
+    $( `#send-ids input:nth-child(${i})`).val('')
+}
+
 async function handlesubmit(evt){
     evt.preventDefault()
 
     params = {
         "query": $('#food').val(),
         "requireAllWords": true,
-        "dataType": "SR, Legacy, Branded, Foundation"
+        "dataType": "Branded"
     }
 
     if ($('#brand').val()){
