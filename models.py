@@ -98,7 +98,7 @@ class Meal(db.Model):
     ingredients = db.relationship('Ingredient', secondary='meal_ingredient', backref='meals')
 
     weight = db.Column(db.Float,
-                        default=2.1)
+                        default=317.515)
 
     def get_ingredient_weights(self):
         ing = self.ingredients
@@ -123,7 +123,7 @@ class Meal(db.Model):
             weights[p.name] = self.weight*.5
             weights[s.name] = self.weight*.5
         else:
-            weights[p.name] = self.weight
+            weights[ing[0].name] = self.weight
         
         rounded = {key: round(val, 2) for key, val in weights.items()}
         
@@ -143,6 +143,10 @@ class Ingredient(db.Model):
     brand = db.Column(db.Text)
 
     ingredient_list = db.Column(db.Text)
+
+    serving_size = db.Column(db.Float)
+
+    serving_size_unit = db.Column(db.Text)
 
     fat = db.Column(db.Float)
 
@@ -167,6 +171,22 @@ class Ingredient(db.Model):
     iron = db.Column(db.Float)
 
     calories = db.Column(db.Float)
+
+    def get_nutrient_names(self):
+        """Get a list of nutrient names"""
+
+        return ["fat", 
+                "saturated_fat", 
+                "trans_fat", 
+                "cholesterol", 
+                "sodium", 
+                "carbohydrates",
+                "fiber",
+                "sugars",
+                "protein",
+                "calcium",
+                "iron",
+                "calories"]
 
 
 class MealIngredient(db.Model):

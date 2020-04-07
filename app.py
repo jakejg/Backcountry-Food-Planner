@@ -67,19 +67,22 @@ def show_meal_plan(trip_id):
 
 
 @app.route('/meal', methods=["GET", "POST"])
-def show_create_a_meal_page():
+def show_create_meal_page():
+    """Show create a meal form and handle data"""
     form = CreateMealForm()
 
     if form.validate_on_submit():  
     
         meal = create_meal(form.title.data, form.type_.data)
-        
+
         for key, value in form.data.items():
             
             if key != 'csrf_token' and key != 'title' and key !='type_' and value:
                 ingr = create_ingredient(get_nutrition_info(value))
                 meal.ingredients.append(ingr)
                 db.session.commit()
+
+        return redirect(url_for('show_create_meal_page', form=form))
 
     return render_template('create_meal.html', form=form)
 
@@ -141,6 +144,8 @@ def create_ingredient(response):
                                      fdcId=response['fdcId'],
                                      brand=response['brandOwner'],
                                      ingredient_list=response.get('ingredients', "No Ingredients Listed"),
+                                     serving_size=response.get('servingSize', 0),
+                                     serving_size_unit=response.get('servingSizeUnit'),
                                      fat=n.get('fat', 0).get('value', 0),
                                      saturated_fat=n.get('saturatedFat', {}).get('value',0),
                                      trans_fat=n.get('transFat', {}).get('value',0),
@@ -161,4 +166,18 @@ def create_ingredient(response):
 def create_meal(title, type_):
     return Meal(title=title, type_=type_)
 
-    
+def get_total_nutrition_data_for_meal(meal):
+    """Get the total nutrition data for a meal"""
+
+    total = {}
+
+    for key, value in meal.get_ingredient_weights().items():
+        
+        ing = Ingredient.query.filter_by(name=key).first()
+
+        for nutrient in ing.get_nutrient_names():
+
+            amount = getattr(ing, nutrient) / ing.serving_size * value
+            total[nutrient] = total.get(nutrient, 0) + amount
+
+    return total

@@ -73,7 +73,6 @@ function addFoodIds(evt){
     }
 
     $mealForm[0].submit()
-
 }
 
 $mealForm.on('submit', addFoodIds)
