@@ -108,7 +108,7 @@ class Meal(db.Model):
     type_ = db.Column(db.Text,
                         nullable=False)
     
-    ingredients = db.relationship('Ingredient', secondary='meal_ingredient', backref='meals')
+    ingredients = db.relationship('Ingredient', secondary='meal_ingredient', order_by='MealIngredient.id', backref='meals')
 
     trip_meal = db.relationship('TripMeal', backref='meals')
 
