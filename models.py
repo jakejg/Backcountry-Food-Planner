@@ -1,7 +1,8 @@
 import requests
+from datetime import datetime, timedelta
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-
+from sqlalchemy.ext.associationproxy import association_proxy
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -42,10 +43,22 @@ class Trip(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    meals = db.relationship('Meal', secondary='trip_meal', backref='user')
+    meals = db.relationship('Meal', secondary='trip_meal', backref='trips')
+
+    trip_meal = db.relationship('TripMeal', backref='trips')
 
     def get_bc_days(self):
         return (self.end_date_time - self.start_date_time).days - 1
+    
+    def get_date_range(self):
+
+        one_day = timedelta(days=1)
+        dates = []
+        while self.start_date_time <= self.end_date_time:
+            dates.append(self.start_date_time)
+            self.start_date_time += one_day
+        
+        return dates
 
     def get_meal_numbers(self):
         """Get numbers for each type of meal"""
@@ -97,6 +110,8 @@ class Meal(db.Model):
     
     ingredients = db.relationship('Ingredient', secondary='meal_ingredient', backref='meals')
 
+    trip_meal = db.relationship('TripMeal', backref='meals')
+
     weight = db.Column(db.Float,
                         default=317.515)
 
@@ -107,27 +122,43 @@ class Meal(db.Model):
         
         if len(ing) == 4:
             p,s,a1,a2 = ing
-            weights[p.name] = self.weight*.375
-            weights[s.name] = self.weight*.375
-            weights[a1.name] = self.weight*.125
-            weights[a2.name] = self.weight*.125
+            weights[p.name] = self.weight*.75
+            weights[s.name] = self.weight*.083
+            weights[a1.name] = self.weight*.083
+            weights[a2.name] = self.weight*.083
 
         elif len(ing) == 3:
             p,s,a1 = ing
-            weights[p.name] = self.weight*.375
-            weights[s.name] = self.weight*.375
-            weights[a1.name] = self.weight*.25
+            weights[p.name] = self.weight*.75
+            weights[s.name] = self.weight*.125
+            weights[a1.name] = self.weight*.125
 
         elif len(ing) == 2:
             p,s = ing
-            weights[p.name] = self.weight*.5
-            weights[s.name] = self.weight*.5
+            weights[p.name] = self.weight*.75
+            weights[s.name] = self.weight*.25
         else:
             weights[ing[0].name] = self.weight
         
         rounded = {key: round(val, 2) for key, val in weights.items()}
         
         return rounded
+
+    def get_total_nutrition_data_for_meal(self):
+        """Get the total nutrition data for a meal"""
+
+        total = {}
+
+        for key, value in self.get_ingredient_weights().items():
+
+            ing = Ingredient.query.filter_by(name=key).first()
+
+            for nutrient in ing.get_nutrient_names():
+
+                amount = getattr(ing, nutrient) / ing.serving_size * value
+                total[nutrient] = total.get(nutrient, 0) + round(amount, 2)
+
+        return total
 
 class Ingredient(db.Model):
 
@@ -203,13 +234,12 @@ class MealIngredient(db.Model):
 class TripMeal(db.Model):
 
     __tablename__ = "trip_meal"
-    
-    id = db.Column(db.Integer,
-                    primary_key=True)
+
+    id = db.Column(db.Integer, primary_key=True)
+
     trip_id = db.Column(db.Integer, db.ForeignKey('trips.id'))
 
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'))
-
 
 
 def connect_db(app):

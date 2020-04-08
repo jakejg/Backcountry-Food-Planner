@@ -1,0 +1,106 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Meal Information</h1>
+<h3 class="text-center">You have {{meal_numbers["total_meals"]}} meals</h3>
+
+<div class="container">
+<h4>Breakfasts <span>{{meal_numbers["breakfasts"]}}</span></h4>
+{% for i in range(meals|length) %}
+    {% if meals[i].meals.type_ == "breakfast" %}
+    <div class="accordion" id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#a{{meals[i].id}}" aria-expanded="true" aria-controls="collapseOne">
+                {{meals[i].meals.title}}
+              </button>
+            </h2>
+          </div>
+          <div id="a{{meals[i].id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <ul>
+                    <h6>Ingredients</h6>
+                    {% for ingredient in meals[i].meals.ingredients %}
+                        <li>{{ingredient.name}}</li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h6>Nutrition Information</h6>
+                    {% for key, val in nutrition_data[i].items() %}
+                    <li>{{key}}: {{val}}g</li>
+                    {% endfor %}
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div> 
+    {% endif %}  
+{% endfor %}
+<h4>Lunches <span>{{meal_numbers["lunches"]}}</span></h4>
+{% for i in range(meals|length) %}
+    {% if meals[i].meals.type_ == "lunch" %}
+    <div class="accordion" id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#a{{meals[i].id}}" aria-expanded="true" aria-controls="collapseOne">
+                {{meals[i].meals.title}}
+              </button>
+            </h2>
+          </div>
+          <div id="a{{meals[i].id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <ul>
+                    <h6>Ingredients</h6>
+                    {% for ingredient in meals[i].meals.ingredients %}
+                        <li>{{ingredient.name}}</li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h6>Nutrition Information</h6>
+                    {% for key, val in nutrition_data[i].items() %}
+                    <li>{{key}}: {{val}}g</li>
+                    {% endfor %}
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div> 
+    {% endif %} 
+{% endfor %}
+<h4>Dinners <span>{{meal_numbers["dinners"]}}</span></h4>
+{% for i in range(meals|length) %}
+    {% if meals[i].meals.type_ == "dinner" %}
+    <div class="accordion" id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#a{{meals[i].id}}" aria-expanded="true" aria-controls="collapseOne">
+                {{meals[i].meals.title}}
+              </button>
+            </h2>
+          </div>
+          <div id="a{{meals[i].id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <ul>
+                    <h6>Ingredients</h6>
+                    {% for ingredient in meals[i].meals.ingredients %}
+                        <li>{{ingredient.name}}</li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    <h6>Nutrition Information</h6>
+                    {% for key, val in nutrition_data[i].items() %}
+                    <li>{{key}}: {{val}}g</li>
+                    {% endfor %}
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div> 
+    {% endif %} 
+{% endfor %}
+</div>
+{% endblock %}

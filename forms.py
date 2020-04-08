@@ -26,19 +26,8 @@ class CreateMealForm(FlaskForm):
     title = StringField('Name of Meal', validators=[DataRequired()])
     type_ = StringField('Type of Meal', validators=[DataRequired(), AnyOf(["breakfast", "lunch", "dinner"], message="You Must pick breakfast, lunch, or dinner")])
     
-
-# add dynamic fields
-    
-
-    # breakfast = SelectField("Breakfast")
-    # lunch = SelectField("Lunch")
-    # dinner = SelectField("Dinner")
-    
-    
-
 class UserAddForm(FlaskForm):
     """Form for adding users."""
-
     
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('E-mail', validators=[DataRequired(), Email()])

@@ -2,7 +2,6 @@ import os
 import requests
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
-from datetime import date, time
 from forms import TripForm, SelectMealForm, SelectField, CreateMealForm
 from api_key import fdc_key
 
@@ -11,7 +10,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgres:///food_planner'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 connect_db(app)
@@ -41,29 +40,29 @@ def select_meals(trip_id):
     fields = populate_select_meal_form(meal_data)
     
     form = SelectMealForm()
-
+    
     for key, value in fields.items():
         form[key].choices = [(m.id, m.title) for m in Meal.query.filter_by(type_=value)]
-    
-        
+      
     if form.validate_on_submit():
         for key, value in form.data.items():
             if key != 'csrf_token':
                 r = TripMeal(trip_id=trip.id, meal_id=form[key].data)
                 db.session.add(r)
+                db.session.commit()
 
-        db.session.commit() 
-        return redirect(url_for('show_meal_plan'))
+        return redirect(url_for('show_meal_plan', trip_id=trip.id))
 
     return render_template('select_meals.html', meal_data=meal_data, form=form)
 
 @app.route('/meal-plan/<int:trip_id>')
 def show_meal_plan(trip_id):
     trip = Trip.query.get_or_404(trip_id)
-    
-    # for meal in trip.meals:
-    #     meal.get_ingredient_weights()
-    #     meal.get_nutrition_info()
+    meal_numbers = trip.get_meal_numbers()
+    meals = trip.trip_meal
+    nutrition_data = [meal.meals.get_total_nutrition_data() for meal in meals]
+   
+    return render_template('meal_plan.html', meals=meals, meal_numbers=meal_numbers, nutrition_data=nutrition_data)
 
 
 @app.route('/meal', methods=["GET", "POST"])
@@ -72,8 +71,8 @@ def show_create_meal_page():
     form = CreateMealForm()
 
     if form.validate_on_submit():  
-    
-        meal = create_meal(form.title.data, form.type_.data)
+        
+        meal = Meal(title=form.title.data, type_=form.type_.data)
 
         for key, value in form.data.items():
             
@@ -162,22 +161,3 @@ def create_ingredient(response):
             db.session.commit()
 
     return ingredient
-
-def create_meal(title, type_):
-    return Meal(title=title, type_=type_)
-
-def get_total_nutrition_data_for_meal(meal):
-    """Get the total nutrition data for a meal"""
-
-    total = {}
-
-    for key, value in meal.get_ingredient_weights().items():
-        
-        ing = Ingredient.query.filter_by(name=key).first()
-
-        for nutrient in ing.get_nutrient_names():
-
-            amount = getattr(ing, nutrient) / ing.serving_size * value
-            total[nutrient] = total.get(nutrient, 0) + amount
-
-    return total

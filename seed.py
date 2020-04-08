@@ -1,9 +1,13 @@
 from app import db
-from models import Meal
+from models import Meal, TripMeal, Trip
+
+
+# Meal.__table__.drop(db.session.bind)
+
+# Meal.__table__.create(db.session.bind)
 
 db.drop_all()
 db.create_all()
-
 
 
 # # breakfast
