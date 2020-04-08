@@ -144,7 +144,7 @@ class Meal(db.Model):
         
         return rounded
 
-    def get_total_nutrition_data_for_meal(self):
+    def get_total_nutrition_data(self):
         """Get the total nutrition data for a meal"""
 
         total = {}

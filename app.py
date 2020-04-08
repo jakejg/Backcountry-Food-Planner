@@ -17,6 +17,7 @@ connect_db(app)
 
 @app.route('/', methods=["GET", "POST"])
 def home():
+    """Show form for creating a trip"""
 
     form = TripForm()
 
@@ -33,6 +34,7 @@ def home():
 
 @app.route('/select-meals/<int:trip_id>', methods=["GET", "POST"])
 def select_meals(trip_id):
+    """Select meals for a trip"""
 
     trip = Trip.query.get_or_404(trip_id)
     meal_data = trip.get_meal_numbers()
@@ -57,6 +59,8 @@ def select_meals(trip_id):
 
 @app.route('/meal-plan/<int:trip_id>')
 def show_meal_plan(trip_id):
+    """Show meal numbers and nutrition info, organized by meal type"""
+
     trip = Trip.query.get_or_404(trip_id)
     meal_numbers = trip.get_meal_numbers()
     meals = trip.trip_meal
