@@ -68,6 +68,13 @@ def show_meal_plan(trip_id):
    
     return render_template('meal_plan.html', meals=meals, meal_numbers=meal_numbers, nutrition_data=nutrition_data)
 
+@app.route('/packing-list/<int:trip_id>')
+def show_packing_list(trip_id):
+    trip = Trip.query.get_or_404(trip_id)
+    weights = get_total_ingredient_weights(trip)
+    weights = to_lbs(weights)
+
+    return weights
 
 @app.route('/meal', methods=["GET", "POST"])
 def show_create_meal_page():
@@ -165,3 +172,19 @@ def create_ingredient(response):
             db.session.commit()
 
     return ingredient
+
+def get_total_ingredient_weights(trip):
+    """ Get the total amount of each ingredient to pack for a trip"""
+    
+    meals = trip.trip_meal
+    total = {}
+    for meal in meals:
+        for key, val in meal.meals.get_ingredient_weights().items():
+            total[key] = total.get(key, 0) + round(val, 2)
+
+    return {key: val*trip.number_of_people for key, val in total.items()}
+
+def to_lbs(weight_obj):
+    """Convert to lbs from grams"""
+
+    return {key: round(val*.0022, 2) for key, val in weight_obj.items()}
