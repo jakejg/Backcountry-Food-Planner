@@ -2,6 +2,7 @@ import requests
 from datetime import datetime, timedelta
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from unit_conversions import to_lbs
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -106,6 +107,13 @@ class Trip(db.Model):
                 total[key] = total.get(key, 0) + round(val, 2)
 
         return {key: val*self.number_of_people for key, val in total.items()}
+    
+    def get_total_food_weight(self):
+        """Get the total food weight for the trip"""
+        total = 0
+        for val in self.get_total_ingredient_weights().values():
+            total += val
+        return to_lbs(total)
 
 class Meal(db.Model):
     

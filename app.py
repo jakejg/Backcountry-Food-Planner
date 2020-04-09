@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
 from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, populate_select_meal_form
 from api_requests import search_for_a_food, get_nutrition_data
+from unit_conversions import to_lbs
 
 
 app = Flask(__name__)
@@ -71,10 +72,10 @@ def show_meal_plan(trip_id):
 @app.route('/packing-list/<int:trip_id>')
 def show_packing_list(trip_id):
     trip = Trip.query.get_or_404(trip_id)
-    weights = get_total_ingredient_weights(trip)
-    weights = to_lbs(weights)
+    weights = trip.get_total_ingredient_weights()
+    weights = {key: to_lbs(val) for key, val in weights.items()}
 
-    return render_template('packing_list.html', weights=weights)
+    return render_template('packing_list.html', weights=weights, trip=trip)
 
 @app.route('/meal', methods=["GET", "POST"])
 def show_create_meal_page():
@@ -137,7 +138,3 @@ def create_ingredient(food):
     return ingredient
 
 
-def to_lbs(weight_obj):
-    """Convert to lbs from grams"""
-
-    return {key: round(val*.0022, 2) for key, val in weight_obj.items()}
