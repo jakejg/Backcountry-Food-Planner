@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgres:///food_planner'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 connect_db(app)
@@ -74,7 +74,7 @@ def show_packing_list(trip_id):
     weights = get_total_ingredient_weights(trip)
     weights = to_lbs(weights)
 
-    return weights
+    return render_template('packing_list.html', weights=weights)
 
 @app.route('/meal', methods=["GET", "POST"])
 def show_create_meal_page():
@@ -175,7 +175,7 @@ def create_ingredient(response):
 
 def get_total_ingredient_weights(trip):
     """ Get the total amount of each ingredient to pack for a trip"""
-    
+
     meals = trip.trip_meal
     total = {}
     for meal in meals:

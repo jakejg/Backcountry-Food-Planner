@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Packing List</h1>
+<table>
+    <thead>
+      <tr>
+        <th>Ingredients</th>
+        <th>Amount</th>
+        <th>Packed</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for key, val in weights.items() %}
+      <tr>
+        <td>{{key}}</td>
+        <td>{{val}} lbs</td>
+        <td></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>Total Weight</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+{% endblock %}
