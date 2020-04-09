@@ -1,9 +1,9 @@
 import os
-import requests
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
 from forms import TripForm, SelectMealForm, SelectField, CreateMealForm
-from api_key import fdc_key
+from api_requests import search_for_a_food, get_nutrition_info
+
 
 app = Flask(__name__)
 
@@ -82,7 +82,7 @@ def show_create_meal_page():
     form = CreateMealForm()
 
     if form.validate_on_submit():  
-        
+
         meal = Meal(title=form.title.data, type_=form.type_.data)
 
         for key, value in form.data.items():
@@ -123,23 +123,6 @@ def populate_select_meal_form(meal_data):
     
     return fields
 
-def search_for_a_food(params):
-    """Make  make search request to fdc api"""
-
-    base_url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={fdc_key}"
-
-    resp = requests.get(base_url, params).json()
-
-    return resp
-
-def get_nutrition_info(fdc_id):
-    """Get nutrition info for an ingredient with an id"""
-
-    base_url = f"https://api.nal.usda.gov/fdc/v1/food/{fdc_id}?api_key={fdc_key}"
-
-    resp = requests.get(base_url).json()
-   
-    return resp
 
 def create_ingredient(response):
     """Check if ingredient exists and if not 

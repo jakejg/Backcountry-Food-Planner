@@ -2,7 +2,6 @@ import requests
 from datetime import datetime, timedelta
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.ext.associationproxy import association_proxy
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
