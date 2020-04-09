@@ -98,13 +98,13 @@ class Trip(db.Model):
     
     def get_total_ingredient_weights(self):
         """ Get the total amount of each ingredient to pack for a trip"""
-    
+
         meals = self.trip_meal
         total = {}
         for meal in meals:
             for key, val in meal.meals.get_ingredient_weights().items():
                 total[key] = total.get(key, 0) + round(val, 2)
-    
+
         return {key: val*self.number_of_people for key, val in total.items()}
 
 class Meal(db.Model):
@@ -166,8 +166,8 @@ class Meal(db.Model):
             for nutrient in ing.get_nutrient_names():
 
                 amount = getattr(ing, nutrient) / ing.serving_size * value
-                total[nutrient] = total.get(nutrient, 0) + round(amount, 2)
-
+                total[nutrient] = round(total.get(nutrient, 0) + amount, 2)
+            
         return total
 
 class Ingredient(db.Model):
