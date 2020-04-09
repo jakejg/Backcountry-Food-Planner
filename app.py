@@ -5,6 +5,7 @@ from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateU
 from api_requests import search_for_a_food, get_nutrition_data
 from unit_conversions import to_lbs
 from sqlalchemy.exc import IntegrityError
+from werkzeug.exceptions import Unauthorized
 
 
 app = Flask(__name__)
@@ -149,7 +150,7 @@ def login():
         
         if user:
             session['user_id'] = user.id
-            return redirect(url_for('user_info', user=user))
+            return redirect(url_for('user_info', username=user.username))
 
         elif user is None:
             form.username.errors = ["Username Not Found"]
@@ -165,6 +166,9 @@ def user_info(username):
 
     user = User.query.filter_by(username=username).first()
 
+    if not authorize(user.id):
+        raise Unauthorized()
+
     return render_template('/users/user_info.html', user=user)
 
     
@@ -173,7 +177,7 @@ def logout():
     """Log a user out"""
     session.pop('user_id')
     flash("You are now logged out")
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 
 def create_ingredient(food):
@@ -208,4 +212,9 @@ def create_ingredient(food):
 
     return ingredient
 
+def authorize(user_id):
+    """ See if a user has permission to access a page"""
 
+    return user_id == session.get('user_id')
+         
+    
