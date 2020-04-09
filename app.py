@@ -26,7 +26,10 @@ def home():
     if form.validate_on_submit():
         trip = Trip(start_date_time=form.start_date_time.data,
                     end_date_time=form.end_date_time.data,
-                    number_of_people=form.number_of_people.data)
+                    number_of_people=form.number_of_people.data,
+                    name=form.trip_name.data,
+                    user_id=session.get('user_id')
+                    )
         db.session.add(trip)
         db.session.commit()
 
@@ -129,7 +132,7 @@ def register():
             flash("Username already taken", 'danger')
             return render_template('/users/register.html', form=form)
 
-        session['user_name'] = user.username
+        session['user_id'] = user.id
         return redirect(url_for('user_info', username=user.username))
 
     return render_template('/users/register.html', form=form)
@@ -145,8 +148,8 @@ def login():
         user = User.login(f.username.data, f.password.data)
         
         if user:
-            session['user_name'] = user.username
-            return redirect(url_for('user_info', username=user.username))
+            session['user_id'] = user.id
+            return redirect(url_for('user_info', user=user))
 
         elif user is None:
             form.username.errors = ["Username Not Found"]
@@ -168,11 +171,9 @@ def user_info(username):
 @app.route('/logout')
 def logout():
     """Log a user out"""
-    session.pop('user_name')
+    session.pop('user_id')
     flash("You are now logged out")
     return redirect(url_for('login'))
-
-
 
 
 def create_ingredient(food):

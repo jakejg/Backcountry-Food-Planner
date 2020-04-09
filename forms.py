@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, HiddenField
-from wtforms_components import TimeField, StringField, IntegerField, SelectField, DateTimeField
+from wtforms_components import TimeField, IntegerField, SelectField, DateTimeField
 from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired
 
@@ -9,10 +9,10 @@ from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired
 class TripForm(FlaskForm):
     """Form for creating a trip"""
 
-    # name = StringField('Trip name', validators=[DataRequired()])
     start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M')
     end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M')
     number_of_people = IntegerField('Number of people',validators=[DataRequired()] )
+    trip_name = StringField('Give your trip a name')
 
 class SelectMealForm(FlaskForm):
     """Form for selecting meals from a list"""

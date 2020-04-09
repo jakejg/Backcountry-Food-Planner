@@ -8,8 +8,8 @@
 <h3>Trips</h3>
 {% if user.trips %}
   <ul>
-      {% for trip in user.trip %}
-      <li><a href="{{url_for('show_meal_plan', trip_id=trip.id)}}">{{trip.id}}</a></li>
+      {% for trip in user.trips %}
+      <li><a href="{{url_for('show_meal_plan', trip_id=trip.id)}}">{{trip.name}}</a></li>
       {% endfor %}
   </ul>
   {% else %}
