@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
-from forms import TripForm, SelectMealForm, SelectField, CreateMealForm
+from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, populate_select_meal_form
 from api_requests import search_for_a_food, get_nutrition_info
 
 
@@ -103,25 +103,6 @@ def api():
     params = request.json['params']
 
     return search_for_a_food(params)
-    
-
-def populate_select_meal_form(meal_data):
-    """Add fields to the select meal form for each meal"""
-    fields = {}
-
-    for n in range(meal_data["breakfasts"]):
-        fields[f"breakfast{n}"] = "breakfast"
-            
-    for n in range(meal_data["lunches"]):
-        fields[f"lunch{n}"] = "lunch"
-       
-    for n in range(meal_data["dinners"]):
-        fields[f"dinner{n}"] = "dinner"
-
-    for key, value in fields.items():
-        setattr(SelectMealForm, key, SelectField(value, coerce=int))
-    
-    return fields
 
 
 def create_ingredient(response):

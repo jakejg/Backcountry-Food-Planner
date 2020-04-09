@@ -17,6 +17,24 @@ class TripForm(FlaskForm):
 class SelectMealForm(FlaskForm):
     """Form for selecting meals from a list"""
 
+def populate_select_meal_form(meal_data):
+    """Add fields to the select meal form for each meal"""
+    fields = {}
+
+    for n in range(meal_data["breakfasts"]):
+        fields[f"breakfast{n}"] = "breakfast"
+            
+    for n in range(meal_data["lunches"]):
+        fields[f"lunch{n}"] = "lunch"
+       
+    for n in range(meal_data["dinners"]):
+        fields[f"dinner{n}"] = "dinner"
+
+    for key, value in fields.items():
+        setattr(SelectMealForm, key, SelectField(value, coerce=int))
+    
+    return fields
+
 class CreateMealForm(FlaskForm):
 
     first_i = HiddenField()
