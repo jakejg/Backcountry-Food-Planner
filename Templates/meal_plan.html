@@ -103,4 +103,7 @@
     {% endif %} 
 {% endfor %}
 </div>
+<div class="container">
+  <a href="{{url_for('show_packing_list', trip_id=meals[0].trip_id)}}" class="btn btn-success">Get printable packing list</a>
+</div>
 {% endblock %}

@@ -9,6 +9,9 @@
     <li>{{meal_data["dinners"]}} Dinners</li>
 </ul>
 <div class="container">
+    <a href="{{url_for('show_create_meal_page')}}" class="btn btn-success">Create a New Meal</a>
+</div>
+<div class="container">
     <form method="POST">
         {{ form.hidden_tag() }} 
   
