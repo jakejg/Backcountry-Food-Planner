@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
-from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, populate_select_meal_form
+from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, populate_select_meal_form
 from api_requests import search_for_a_food, get_nutrition_data
 from unit_conversions import to_lbs
 
@@ -99,11 +99,90 @@ def show_create_meal_page():
 
 @app.route('/meal/api', methods=["POST"])
 def api():
-    """Get search term from create meal form, and return data"""
+    """Get search term from, and return data"""
 
     params = request.json['params']
    
     return search_for_a_food(params.get('item'), params.get('brandOwner'))
+
+# User Routes///////////////////////////////
+
+@app.route('/register', methods=["GET", "POST"])
+def register():
+    """ Allow a new user to register"""
+
+    form = CreateUserAccount()
+
+    if form.validate_on_submit():
+        try:
+            f = form
+            user = User.register(f.username.data, 
+                                f.password.data,
+                                f.email.data,
+                                f.first_name.data,
+                                f.last_name.data,
+                                f.is_admin.data)
+            db.session.add(user)
+            db.session.commit()
+
+        except IntegrityError:
+            flash("Username already taken", 'danger')
+            return render_template('/user/register.html', form=form)
+
+        session['user_name'] = user.username
+        return redirect(f'/users/{user.username}')
+
+    return render_template('/user/register.html', form=form)
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    """Authenticate a user"""
+
+    form = LoginUser()
+    
+    if form.validate_on_submit():
+        f = form
+        user = User.login(f.username.data, f.password.data)
+        
+        if user:
+            session['user_name'] = user.username
+            return redirect(f'/users/{user.username}')
+
+        elif user is None:
+            form.username.errors = ["Username Not Found"]
+        else:
+            form.password.errors = ["Incorrect Password"]
+    
+    return render_template('/user/login.html', form=form)
+
+
+# @app.route('/users/<username>')
+# def secret(username):
+#     """Show info about a user"""
+
+#     user = User.query.get_or_404(username)
+  
+#     return render_template('user-info.html', user=user)
+
+    
+
+# @app.route('/logout')
+# def logout():
+#     """Log a user out"""
+#     session.pop('user_name')
+#     flash("You are now logged out")
+#     return redirect('/login')
+
+
+
+# @app.route('/logout')
+# def logout():
+#     """Handle logout of user."""
+
+#     do_logout()
+#     flash("You are now logged out")
+#     return redirect(url_for('login'))
+
 
 def create_ingredient(food):
     """Check if ingredient exists and if not 

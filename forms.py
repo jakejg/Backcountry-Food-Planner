@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, HiddenField
 from wtforms_components import TimeField, StringField, IntegerField, SelectField, DateTimeField
 from wtforms.fields.html5 import DateTimeLocalField
-from wtforms.validators import DataRequired, Email, Length, AnyOf
+from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired
 
 
 
@@ -44,10 +44,15 @@ class CreateMealForm(FlaskForm):
     title = StringField('Name of Meal', validators=[DataRequired()])
     type_ = StringField('Type of Meal', validators=[DataRequired(), AnyOf(["breakfast", "lunch", "dinner"], message="You Must pick breakfast, lunch, or dinner")])
     
-class UserAddForm(FlaskForm):
-    """Form for adding users."""
+class CreateUserAccount(FlaskForm):
+
+    first_name = StringField("First Name", validators=[InputRequired()])
+    last_name = StringField("Last Name", validators=[InputRequired()])
+    username = StringField("Username", validators=[InputRequired()])
+    email = StringField("Email", validators=[InputRequired(), Email(message="That email doesn't seem valid")])
+    password = PasswordField("Password", validators=[InputRequired()])
     
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('E-mail', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[Length(min=6)])
-    image_url = StringField('(Optional) Image URL')
+class LoginUser(FlaskForm):
+
+    username = StringField("Username", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired()])

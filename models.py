@@ -25,6 +25,28 @@ class User(db.Model):
                         nullable=False)
     trips = db.relationship('Trip', backref='user')
 
+    @classmethod
+    def register(cls, username, password, email, first_name, last_name, is_admin):
+        """Generate a hash for a password and return a new instance of user """
+        from functions import encrypt
+
+        p = encrypt(password)
+        return cls(username=username, password=p, email=email, first_name=first_name, last_name=last_name, is_admin=is_admin)
+    
+    @classmethod
+    def login(cls, username, password):
+        """Check if a user exists and if the password matches the username"""
+
+        user = User.query.filter_by(username=username).first()
+
+        if not user:
+            return None
+        elif bcrypt.check_password_hash(user.password, password):
+            return user
+        else: 
+            return False
+
+
 class Trip(db.Model):
 
     __tablename__ = "trips"
