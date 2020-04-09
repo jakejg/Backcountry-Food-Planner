@@ -17,9 +17,7 @@ async function handlesubmit(evt){
     evt.preventDefault()
 
     params = {
-        "query": $('#food').val(),
-        "requireAllWords": true,
-        "dataType": "Branded"
+        "item": $('#food').val()
     }
 
     if ($('#brand').val()){
@@ -32,14 +30,21 @@ async function handlesubmit(evt){
         displayResults(resp.data)
     }
     catch(error){
-    
+       
+        if (error.response.status === 500){
+
+            let btalert = $(`<div class="alert alert-warning" role="alert">
+            ${error.response.data.error}
+          </div>`)
+          $('#top').prepend(btalert)
+        }
     }
 }
 
 function displayResults(resp){
     $searchList.empty()
     for (food of resp.foods){
-        $item = $(`<li class="list-group-item" data-id=${food.fdcId}>${food.description}<br>
+        let $item = $(`<li class="list-group-item" data-id=${food.fdcId}>${food.description}<br>
             <small class="text-muted" data-id=${food.fdcId}>${food.ingredients}</small></li>`)
         $searchList.append($item)
         }

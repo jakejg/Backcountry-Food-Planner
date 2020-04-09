@@ -102,8 +102,8 @@ def api():
     """Get search term from create meal form, and return data"""
 
     params = request.json['params']
-
-    return search_for_a_food(params)
+   
+    return search_for_a_food(params.get('item'), params.get('brandOwner'))
 
 def create_ingredient(food):
     """Check if ingredient exists and if not 
