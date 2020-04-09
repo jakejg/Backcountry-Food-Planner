@@ -4,6 +4,7 @@ from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
 from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, populate_select_meal_form
 from api_requests import search_for_a_food, get_nutrition_data
 from unit_conversions import to_lbs
+from sqlalchemy.exc import IntegrityError
 
 
 app = Flask(__name__)
@@ -11,7 +12,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgres:///food_planner'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 connect_db(app)
@@ -120,19 +121,18 @@ def register():
                                 f.password.data,
                                 f.email.data,
                                 f.first_name.data,
-                                f.last_name.data,
-                                f.is_admin.data)
+                                f.last_name.data)
             db.session.add(user)
             db.session.commit()
 
         except IntegrityError:
             flash("Username already taken", 'danger')
-            return render_template('/user/register.html', form=form)
+            return render_template('/users/register.html', form=form)
 
         session['user_name'] = user.username
-        return redirect(f'/users/{user.username}')
+        return redirect(url_for('user_info', username=user.username))
 
-    return render_template('/user/register.html', form=form)
+    return render_template('/users/register.html', form=form)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -146,42 +146,33 @@ def login():
         
         if user:
             session['user_name'] = user.username
-            return redirect(f'/users/{user.username}')
+            return redirect(url_for('user_info', username=user.username))
 
         elif user is None:
             form.username.errors = ["Username Not Found"]
         else:
             form.password.errors = ["Incorrect Password"]
     
-    return render_template('/user/login.html', form=form)
+    return render_template('/users/login.html', form=form)
 
 
-# @app.route('/users/<username>')
-# def secret(username):
-#     """Show info about a user"""
+@app.route('/users/<username>')
+def user_info(username):
+    """Show info about a user"""
 
-#     user = User.query.get_or_404(username)
-  
-#     return render_template('user-info.html', user=user)
+    user = User.query.filter_by(username=username).first()
+
+    return render_template('/users/user_info.html', user=user)
 
     
-
-# @app.route('/logout')
-# def logout():
-#     """Log a user out"""
-#     session.pop('user_name')
-#     flash("You are now logged out")
-#     return redirect('/login')
-
+@app.route('/logout')
+def logout():
+    """Log a user out"""
+    session.pop('user_name')
+    flash("You are now logged out")
+    return redirect(url_for('login'))
 
 
-# @app.route('/logout')
-# def logout():
-#     """Handle logout of user."""
-
-#     do_logout()
-#     flash("You are now logged out")
-#     return redirect(url_for('login'))
 
 
 def create_ingredient(food):

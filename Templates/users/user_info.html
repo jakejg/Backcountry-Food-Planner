@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">{{user.first_name}} {{user.last_name}}
+<ul style="list-style: none;">
+    <li><b>Username:</b> {{user.username}}</li>
+    <li><b>Email: </b> {{user.email}}</li>
+</ul>
+
+{% endblock %}

@@ -26,12 +26,13 @@ class User(db.Model):
     trips = db.relationship('Trip', backref='user')
 
     @classmethod
-    def register(cls, username, password, email, first_name, last_name, is_admin):
+    def register(cls, username, password, email, first_name, last_name):
         """Generate a hash for a password and return a new instance of user """
-        from functions import encrypt
 
-        p = encrypt(password)
-        return cls(username=username, password=p, email=email, first_name=first_name, last_name=last_name, is_admin=is_admin)
+        hashed = bcrypt.generate_password_hash(password)
+        hashed_utf8 = hashed.decode("utf8")
+
+        return cls(username=username, password=hashed_utf8, email=email, first_name=first_name, last_name=last_name)
     
     @classmethod
     def login(cls, username, password):
