@@ -95,6 +95,17 @@ class Trip(db.Model):
             "lunches" : lunches,
             "dinners" : dinners,
         }
+    
+    def get_total_ingredient_weights(self):
+        """ Get the total amount of each ingredient to pack for a trip"""
+    
+        meals = self.trip_meal
+        total = {}
+        for meal in meals:
+            for key, val in meal.meals.get_ingredient_weights().items():
+                total[key] = total.get(key, 0) + round(val, 2)
+    
+        return {key: val*self.number_of_people for key, val in total.items()}
 
 class Meal(db.Model):
     

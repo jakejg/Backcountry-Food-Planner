@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
 from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, populate_select_meal_form
-from api_requests import search_for_a_food, get_nutrition_info
+from api_requests import search_for_a_food, get_nutrition_data
 
 
 app = Flask(__name__)
@@ -88,7 +88,7 @@ def show_create_meal_page():
         for key, value in form.data.items():
             
             if key != 'csrf_token' and key != 'title' and key !='type_' and value:
-                ingr = create_ingredient(get_nutrition_info(value))
+                ingr = create_ingredient(get_nutrition_data(value))
                 meal.ingredients.append(ingr)
                 db.session.commit()
 
@@ -104,22 +104,21 @@ def api():
 
     return search_for_a_food(params)
 
-
-def create_ingredient(response):
+def create_ingredient(food):
     """Check if ingredient exists and if not 
-     create a new ingredient with nutrition info"""
+     create a new ingredient from a food"""
 
-    ingredient = Ingredient.query.filter_by(fdcId=response['fdcId']).first()
+    ingredient = Ingredient.query.filter_by(fdcId=food['fdcId']).first()
 
     if ingredient is None:
-        if response['foodClass'] == "Branded":
-            n = response['labelNutrients']
-            ingredient = Ingredient(name=response['description'],
-                                     fdcId=response['fdcId'],
-                                     brand=response['brandOwner'],
-                                     ingredient_list=response.get('ingredients', "No Ingredients Listed"),
-                                     serving_size=response.get('servingSize', 0),
-                                     serving_size_unit=response.get('servingSizeUnit'),
+        if food['foodClass'] == "Branded":
+            n = food['labelNutrients']
+            ingredient = Ingredient(name=food['description'],
+                                     fdcId=food['fdcId'],
+                                     brand=food['brandOwner'],
+                                     ingredient_list=food.get('ingredients', "No Ingredients Listed"),
+                                     serving_size=food.get('servingSize', 0),
+                                     serving_size_unit=food.get('servingSizeUnit'),
                                      fat=n.get('fat', 0).get('value', 0),
                                      saturated_fat=n.get('saturatedFat', {}).get('value',0),
                                      trans_fat=n.get('transFat', {}).get('value',0),
@@ -137,16 +136,6 @@ def create_ingredient(response):
 
     return ingredient
 
-def get_total_ingredient_weights(trip):
-    """ Get the total amount of each ingredient to pack for a trip"""
-
-    meals = trip.trip_meal
-    total = {}
-    for meal in meals:
-        for key, val in meal.meals.get_ingredient_weights().items():
-            total[key] = total.get(key, 0) + round(val, 2)
-
-    return {key: val*trip.number_of_people for key, val in total.items()}
 
 def to_lbs(weight_obj):
     """Convert to lbs from grams"""

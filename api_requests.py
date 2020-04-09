@@ -9,9 +9,9 @@ def search_for_a_food(params):
 
     return resp
 
-def get_nutrition_info(fdc_id):
-    """Get nutrition info for an ingredient with an id"""
+def get_nutrition_data(fdc_id):
+    """Get nutrition data for an ingredient with an id"""
 
-    resp = requests.get(f"{base_url}/food/{fdc_id}?api_key={fdc_key}").json()
+    nutrition_data = requests.get(f"{base_url}/food/{fdc_id}?api_key={fdc_key}").json()
    
-    return resp
+    return nutrition_data
