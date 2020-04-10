@@ -26,17 +26,21 @@ def add_user_to_g():
     if 'user_id' in session:
         g.user = User.query.get(session['user_id'])
 
+
+# Trip routes ///////////////////////////////////
+
 @app.route('/', methods=["GET", "POST"])
 def home():
     """Show form for creating a trip"""
 
     form = TripForm()
-
+ 
     if form.validate_on_submit():
+        
         trip = Trip(start_date_time=form.start_date_time.data,
                     end_date_time=form.end_date_time.data,
                     number_of_people=form.number_of_people.data,
-                    name=form.trip_name.data,
+                    name=form.name.data,
                     user_id=session.get('user_id')
                     )
         db.session.add(trip)
@@ -59,11 +63,11 @@ def select_meals(trip_id):
     
     for key, value in fields.items():
         form[key].choices = [(m.id, m.title) for m in Meal.query.filter_by(type_=value)]
-      
+
     if form.validate_on_submit():
         for key, value in form.data.items():
             if key != 'csrf_token':
-                r = TripMeal(trip_id=trip.id, meal_id=form[key].data, time=datetime.now())
+                r = TripMeal(trip_id=trip.id, meal_id=form[key].data)
                 db.session.add(r)
                 db.session.commit()
 
@@ -94,9 +98,9 @@ def show_packing_list(trip_id):
 def show_create_meal_page():
     """Show create a meal form and handle data"""
     form = CreateMealForm()
-
+  
     if form.validate_on_submit():  
-
+        
         meal = Meal(title=form.title.data, type_=form.type_.data)
 
         for key, value in form.data.items():

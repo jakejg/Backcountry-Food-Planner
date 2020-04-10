@@ -12,7 +12,7 @@ class TripForm(FlaskForm):
     start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M')
     end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M')
     number_of_people = IntegerField('Number of people',validators=[DataRequired()] )
-    trip_name = StringField('Give your trip a name')
+    name = StringField('Give your trip a name')
 
 class SelectMealForm(FlaskForm):
     """Form for selecting meals from a list"""
