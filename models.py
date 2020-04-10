@@ -282,6 +282,8 @@ class TripMeal(db.Model):
 
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'))
 
+    time = db.Column(db.DateTime, nullable=False)
+
 
 def connect_db(app):
     """Connect this database to provided Flask app."""

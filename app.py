@@ -6,6 +6,7 @@ from api_requests import search_for_a_food, get_nutrition_data
 from unit_conversions import to_lbs
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -17,6 +18,13 @@ app.config['SQLALCHEMY_ECHO'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 connect_db(app)
+
+@app.before_request
+def add_user_to_g():
+    """If user is logged in, add current user to Flask global."""
+
+    if 'user_id' in session:
+        g.user = User.query.get(session['user_id'])
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -55,7 +63,7 @@ def select_meals(trip_id):
     if form.validate_on_submit():
         for key, value in form.data.items():
             if key != 'csrf_token':
-                r = TripMeal(trip_id=trip.id, meal_id=form[key].data)
+                r = TripMeal(trip_id=trip.id, meal_id=form[key].data, time=datetime.now())
                 db.session.add(r)
                 db.session.commit()
 
@@ -213,7 +221,7 @@ def create_ingredient(food):
     return ingredient
 
 def authorize(user_id):
-    """ See if a user has permission to access a page"""
+    """ Check if a user has permission to access a page"""
 
     return user_id == session.get('user_id')
          
