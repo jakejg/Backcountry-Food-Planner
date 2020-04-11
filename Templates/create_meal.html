@@ -33,6 +33,11 @@
     <ul id="search-list"></ul>
     </ul>
 </div>
+<div class="container">
+{% if 'trip_id' in session %}
+<span><a href="{{url_for('select_meals', trip_id=session.get('trip_id'))}}" class="btn btn-info">Go Back to Selecting Meals</a></span>
+{% endif %}
+</div>
 {% endblock %}
 
 {% block scripts %}

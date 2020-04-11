@@ -51,11 +51,7 @@ def home():
         db.session.add(trip)
         db.session.commit()
 
-        # if trip.get_meal_numbers()['total_meals'] < 0:
-            
-        #     form.end_date_time.erros = ["Change your trip dates/times to be at least 1 day"]
-
-        #     return render_template('create_trip.html', form=form)
+        session['trip_id'] = trip.id
 
         return redirect(url_for('select_meals', trip_id=trip.id))
        

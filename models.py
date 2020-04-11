@@ -132,7 +132,7 @@ class Trip(db.Model):
         return {key: val*self.number_of_people for key, val in total.items()}
     
     def get_total_food_weight(self):
-        """Get the total food weight for the trip"""
+        """Get the total food weight for the trip in lbs"""
         total = 0
         for val in self.get_total_ingredient_weights().values():
             total += val
