@@ -54,7 +54,7 @@ d1.ingredients.append(beans)
 db.session.commit()
 
 
-class TripTests(TestCase):
+class TripMealTests(TestCase):
 
     def setUp(self):
         """Set up a User and a new Trip"""
@@ -76,6 +76,17 @@ class TripTests(TestCase):
         db.session.add(self.trip)
         db.session.commit()
 
+        tm1 = TripMeal(trip_id=self.trip.id, meal_id=1)
+        tm2 = TripMeal(trip_id=self.trip.id, meal_id=1)
+        tm3 = TripMeal(trip_id=self.trip.id, meal_id=2)
+        tm4 = TripMeal(trip_id=self.trip.id, meal_id=2)
+        tm5 = TripMeal(trip_id=self.trip.id, meal_id=2)
+        tm6 = TripMeal(trip_id=self.trip.id, meal_id=3)
+        tm7 = TripMeal(trip_id=self.trip.id, meal_id=3)
+
+        db.session.add_all([tm1, tm2, tm3, tm4, tm5, tm6, tm7])
+        db.session.commit()
+
     def tearDown(self):
         TripMeal.query.delete()
         Trip.query.delete()
@@ -89,16 +100,76 @@ class TripTests(TestCase):
 
         self.assertEqual(self.trip.get_bc_days(), 1)
 
-    def get_meal_numbers(self):
+    def test_get_meal_numbers(self):
         """Check if correct number of meals are returned"""
-
-        nums = trip.get_meal_numbers()
+        
+        nums = self.trip.get_meal_numbers()
 
         self.assertEqual(nums['total_meals'], 7)
         self.assertEqual(nums['breakfasts'], 2)
         self.assertEqual(nums['lunches'], 3)
         self.assertEqual(nums['dinners'], 2)
 
+        short_trip = Trip(start_date_time=datetime(2020, 4, 10, 10, 00), 
+                        end_date_time=datetime(2020, 4, 10, 10, 1),
+                        number_of_people=3,
+                        name="short",
+                        user_id= self.user.id)
         
+        db.session.add(short_trip)
+        db.session.commit()
+
+        nums = short_trip.get_meal_numbers()
+
+        self.assertEqual(nums['total_meals'], 0)
+
+    def test_get_total_ingredient_weights(self):
+        """Check if ingredients weghts are totaled correctly"""
+
+        weights = self.trip.get_total_ingredient_weights()
+
+        self.assertEqual(weights['OATS'], 1428.84)
+        self.assertEqual(weights['PINTO BEANS'], 476.28)
+        self.assertEqual(weights['BROWN SUGAR'], 238.14)
+
+    def test_get_total_food_weight(self):
+        """Check it total food weight in lbs is given correctly"""
+
+        total = self.trip.get_total_food_weight()
+
+        self.assertEqual(total, 14.67)
+
+    def test_get_ingredient_weights(self):
+        """Check if the meal weight is distributed to ingredients in the correct proportions"""
+
+        meal = Meal.query.get(1)
+
+        w = meal.get_ingredient_weights()
+
+        self.assertEqual(w['OATS'], 238.14)
+        self.assertEqual(w['RAISINS'], 39.69)
+        self.assertEqual(w['BROWN SUGAR'], 39.69)
+    
+    def test_get_total_nutrition_data(self):
+        """Check if the nutrition data per meal is correct"""
+
+        meal = Meal.query.get(1)
+        
+        n = meal.get_total_nutrition_data()
+        
+        self.assertEqual(n['fiber'], 25.79)
+        self.assertEqual(n['fat'], 14.88)
+        self.assertEqual(n['calories'], 1144.26)
+        self.assertEqual(n['sodium'], 0)
+
+
+
+
+        
+
+    
+
+
+
     
 
