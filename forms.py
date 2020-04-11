@@ -26,17 +26,17 @@ def populate_select_meal_form(meal_data):
     """Add fields to the select meal form for each meal"""
     fields = {}
 
-    for n in range(meal_data["breakfasts"]):
-        fields[f"breakfast{n}"] = "breakfast"
+    for n in range(meal_data["Breakfast"]):
+        fields[f"breakfast{n}"] = "Breakfast"
             
-    for n in range(meal_data["lunches"]):
-        fields[f"lunch{n}"] = "lunch"
+    for n in range(meal_data["Lunch"]):
+        fields[f"lunch{n}"] = "Lunch"
        
-    for n in range(meal_data["dinners"]):
-        fields[f"dinner{n}"] = "dinner"
+    for n in range(meal_data["Dinner"]):
+        fields[f"dinner{n}"] = "Dinner"
 
-    if meal_data['total_meals'] > 0:
-        for key, value in fields.items():
+    for key, value in fields.items():
+        if meal_data[value] > 0:
             setattr(SelectMealForm, key, SelectField(value, coerce=int))
     
     return fields
@@ -48,7 +48,7 @@ class CreateMealForm(FlaskForm):
     third_i = HiddenField()
     fourth_i = HiddenField()
     title = StringField('Name of Meal', validators=[DataRequired()])
-    type_ = StringField('Type of Meal', validators=[DataRequired(), AnyOf(["breakfast", "lunch", "dinner"], message="You Must pick breakfast, lunch, or dinner")])
+    type_ = StringField('Type of Meal', validators=[DataRequired(), AnyOf(["Breakfast", "Lunch", "Dinner"], message="You Must pick Breakfast, Lunch, or Dinner")])
     
 class CreateUserAccount(FlaskForm):
 

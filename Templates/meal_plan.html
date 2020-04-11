@@ -6,9 +6,9 @@
 <h3 class="text-center">You have {{meal_numbers["total_meals"]}} meals</h3>
 
 <div class="container">
-<h4>Breakfasts <span>{{meal_numbers["breakfasts"]}}</span></h4>
+<h4>Breakfasts <span>{{meal_numbers["Breakfast"]}}</span></h4>
 {% for i in range(meals|length) %}
-    {% if meals[i].meals.type_ == "breakfast" %}
+    {% if meals[i].meals.type_ == "Breakfast" %}
     <div class="accordion" id="accordion">
         <div class="card">
           <div class="card-header" id="headingOne">
@@ -38,9 +38,9 @@
     </div> 
     {% endif %}  
 {% endfor %}
-<h4>Lunches <span>{{meal_numbers["lunches"]}}</span></h4>
+<h4>Lunches <span>{{meal_numbers["Lunch"]}}</span></h4>
 {% for i in range(meals|length) %}
-    {% if meals[i].meals.type_ == "lunch" %}
+    {% if meals[i].meals.type_ == "Lunch" %}
     <div class="accordion" id="accordion">
         <div class="card">
           <div class="card-header" id="headingOne">
@@ -70,9 +70,9 @@
     </div> 
     {% endif %} 
 {% endfor %}
-<h4>Dinners <span>{{meal_numbers["dinners"]}}</span></h4>
+<h4>Dinners <span>{{meal_numbers["Dinner"]}}</span></h4>
 {% for i in range(meals|length) %}
-    {% if meals[i].meals.type_ == "dinner" %}
+    {% if meals[i].meals.type_ == "Dinner" %}
     <div class="accordion" id="accordion">
         <div class="card">
           <div class="card-header" id="headingOne">

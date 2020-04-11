@@ -9,13 +9,14 @@
 {% if user.trips %}
   <ul>
       {% for trip in user.trips %}
-      <li>
+        <li>
       {% if trip.meals %}
-      <a href="{{url_for('show_meal_plan', trip_id=trip.id)}}">
+        <a href="{{url_for('show_meal_plan', trip_id=trip.id)}}">
       {% else %}
-      <a href="{{url_for('select_meals',  trip_id=trip.id)}}">
+       <a href="{{url_for('select_meals',  trip_id=trip.id)}}">
       {% endif %}
-      {{trip.name}}</a></li>
+        {{trip.name}}</a>
+        </li>
       {% endfor %}
   </ul>
   {% else %}

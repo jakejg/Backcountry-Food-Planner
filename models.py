@@ -72,6 +72,7 @@ class Trip(db.Model):
 
     def get_bc_days(self):
         return (self.end_date_time - self.start_date_time).days - 1
+        
     
     def get_date_range(self):
 
@@ -115,9 +116,9 @@ class Trip(db.Model):
 
         return {
             "total_meals": breakfasts + lunches + dinners,
-            "breakfasts" : breakfasts,
-            "lunches" : lunches,
-            "dinners" : dinners,
+            "Breakfast" : breakfasts,
+            "Lunch" : lunches,
+            "Dinner" : dinners,
         }
     
     def get_total_ingredient_weights(self):

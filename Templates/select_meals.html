@@ -4,32 +4,32 @@
 <h1 class="text-center">Create your menu</h1>
 <h3 class="text-center">You will need {{meal_data["total_meals"]}} meals.</h3>
 <ul>
-    <li>{{meal_data["breakfasts"]}} Breakfasts</li>
-    <li>{{meal_data["lunches"]}} Lunches</li>
-    <li>{{meal_data["dinners"]}} Dinners</li>
+    <li>{{meal_data["Breakfast"]}} Breakfasts</li>
+    <li>{{meal_data["Lunch"]}} Lunches</li>
+    <li>{{meal_data["Dinner"]}} Dinners</li>
 </ul>
 <div class="container">
     <a href="{{url_for('show_create_meal_page')}}" class="btn btn-success">Create a New Meal</a>
 </div>
 <div class="container">
-    <form method="POST">
-        {{ form.hidden_tag() }} 
-  
-        {% for field in form 
-               if field.widget.input_type != 'hidden' %}
-            <div class="form-group">
-            {{ field.label }}
-            {{ field(class_="form-control") }}
-      
-            {% for error in field.errors %}
-              <small>{{ error }}</small>
-            {% endfor %}
-        </div>
-      
-        {% endfor %}
+    {% if meal_data['total_meals'] > 0 %}
+        <form method="POST">
+            {{ form.hidden_tag() }} 
 
-        {% if meal_data["total_meals"] > 0 %}
-            <button class="btn btn-primary" type="submit">Select Meals</button>
+        
+            {% for field in form 
+                   if field.widget.input_type != 'hidden' %}
+                <div class="form-group">
+                {{ field.label }}
+                {{ field(class_="form-control") }}
+                
+                {% for error in field.errors %}
+                  <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+      
+            {% endfor %}
+                <button class="btn btn-primary" type="submit">Select Meals</button>
         {% endif %}
     </form>
 </div>

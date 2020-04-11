@@ -70,7 +70,7 @@ def select_meals(trip_id):
     
     for key, value in fields.items():
         form[key].choices = [(m.id, m.title) for m in Meal.query.filter_by(type_=value)]
-
+    
     if form.validate_on_submit():
         for key, value in form.data.items():
             if key != 'csrf_token':
