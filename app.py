@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
-from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, populate_select_meal_form
+from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form
 from api_requests import search_for_a_food, get_nutrition_data
 from unit_conversions import to_lbs
 from sqlalchemy.exc import IntegrityError
@@ -34,9 +34,14 @@ def home():
     """Show form for creating a trip"""
 
     form = TripForm()
- 
+
     if form.validate_on_submit():
+        if validate_dates(form.start_date_time.data, form.end_date_time.data):
+
+            form.end_date_time.errors = ["End date/time is earlier than start date/time."]
         
+            return render_template('create_trip.html', form=form)
+  
         trip = Trip(start_date_time=form.start_date_time.data,
                     end_date_time=form.end_date_time.data,
                     number_of_people=form.number_of_people.data,
@@ -46,8 +51,14 @@ def home():
         db.session.add(trip)
         db.session.commit()
 
-        return redirect(url_for('select_meals', trip_id=trip.id))
+        # if trip.get_meal_numbers()['total_meals'] < 0:
+            
+        #     form.end_date_time.erros = ["Change your trip dates/times to be at least 1 day"]
 
+        #     return render_template('create_trip.html', form=form)
+
+        return redirect(url_for('select_meals', trip_id=trip.id))
+       
     return render_template('create_trip.html', form=form)
 
 @app.route('/select-meals/<int:trip_id>', methods=["GET", "POST"])

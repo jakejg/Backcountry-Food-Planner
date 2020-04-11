@@ -57,7 +57,7 @@ db.session.commit()
 class ViewTests(TestCase):
 
     def setUp(self):
-        """Set up a User and a new Trip and base meals"""
+        """Set up a User and a new Trip"""
 
         self.user = User.register("tester1",
                                 "password",

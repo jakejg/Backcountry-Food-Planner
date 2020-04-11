@@ -27,8 +27,10 @@
         </div>
       
         {% endfor %}
-      
-        <button class="btn btn-primary" type="submit">Select Meals</button>
+
+        {% if meal_data["total_meals"] > 0 %}
+            <button class="btn btn-primary" type="submit">Select Meals</button>
+        {% endif %}
     </form>
 </div>
 {% endblock %}

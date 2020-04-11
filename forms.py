@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, HiddenField
 from wtforms_components import TimeField, IntegerField, SelectField, DateTimeField
 from wtforms.fields.html5 import DateTimeLocalField
-from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired
+from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired, ValidationError
 
 
 
@@ -11,8 +11,13 @@ class TripForm(FlaskForm):
 
     start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M')
     end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M')
-    number_of_people = IntegerField('Number of people',validators=[DataRequired()] )
+    number_of_people = IntegerField('Number of people', validators=[DataRequired()] )
     name = StringField('Give your trip a name')
+
+def validate_dates(start, end):
+
+    if end < start:
+        return True
 
 class SelectMealForm(FlaskForm):
     """Form for selecting meals from a list"""
@@ -30,8 +35,9 @@ def populate_select_meal_form(meal_data):
     for n in range(meal_data["dinners"]):
         fields[f"dinner{n}"] = "dinner"
 
-    for key, value in fields.items():
-        setattr(SelectMealForm, key, SelectField(value, coerce=int))
+    if meal_data['total_meals'] > 0:
+        for key, value in fields.items():
+            setattr(SelectMealForm, key, SelectField(value, coerce=int))
     
     return fields
 
