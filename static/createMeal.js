@@ -1,5 +1,6 @@
 $mealForm = $('#send-ids')
 $searchList = $('#search-list')
+$mealList = $('#meal-list')
 
 SELECTED_FOODS = []
 
@@ -45,7 +46,8 @@ function displayResults(resp){
     $searchList.empty()
     for (food of resp.foods){
         let $item = $(`<li class="list-group-item" data-id=${food.fdcId}>${food.description}<br>
-            <small class="text-muted" data-id=${food.fdcId}>${food.ingredients}</small></li>`)
+            <small class="text-muted" data-id=${food.fdcId}>${food.ingredients}</small></li>
+            `)
         $searchList.append($item)
         }
 }
@@ -53,15 +55,31 @@ function displayResults(resp){
 function selectFood(evt){
     
     if (SELECTED_FOODS.length < 4){
-        //add color
-        $(evt.target).addClass('bg-info')
+        $item = $(evt.target)
+        //add color and spacing
+        $item.addClass('bg-info my-1 rounded')
         //add to my ingredients
-        $('#meal-list').append($(evt.target))
+        $item.prepend('<i class="fas fa-trash m-1"></i>')
+
+        $mealList.append($item)
         //add id to list
-        SELECTED_FOODS.push($(evt.target).attr('data-id')) 
+        SELECTED_FOODS.push($item.attr('data-id')) 
     }
 
     console.log(SELECTED_FOODS)
+}
+
+function deleteFood(evt){
+    $item = $(evt.target).parent()
+ 
+    //remove from selected_foods array
+    i = SELECTED_FOODS.findIndex(val => {
+        return val === $item.attr('data-id')
+    })
+
+    SELECTED_FOODS.splice(i,1)
+    
+    $item.remove()
 }
 
 function addFoodIds(evt){
@@ -83,3 +101,4 @@ function addFoodIds(evt){
 $mealForm.on('submit', addFoodIds)
 $('#search').on('submit', handlesubmit)
 $searchList.on('click', 'li', selectFood)
+$mealList.on('click', 'i', deleteFood)

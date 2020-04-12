@@ -2,57 +2,61 @@
 
 
 {% block content %}
-<div class="container-fluid">
+<div id="top" class="container-fluid">
     <div class="row align-items-center">
-        <div class="col-6 ">
-            <p class="i text-center">Create a meal</p>
-            <div class="ml-sm-5">
-                Search for ingredients with keywords and brand names<br>
-                Select up to four ingredients.<br>
-                The first two ingredients will make up the bulk of the meal.<br>
-                The last two ingredients are supplimental.<br>
-            </div>
+        <div class="col-8 text-center  ">
+            <p class="i ">Create a meal</p>
+            <ul class="detail ">
+                <li>Search for ingredients with keywords and brand names</li>
+                <li>Select up to four ingredients.</li>
+                <li>The first two ingredients will make up the bulk of the meal.</li>
+                <li>The last two ingredients are supplimental.</li>
+            </ul>
         </div>
-        <div class="col-6 p-0">
+        <div class="col-4 p-0">
             <img class="img-fluid" src="{{url_for('static', filename='images/cooking.jpg')}}" alt="">
         </div>
     </div>
-
-<div id="top" class="container">
-    <form id="search">
-        <div class="form-group">
-          <label for="food">Search for a food</label>
-          <input type="text" class="form-control" id="food"  placeholder="Try rice or fig bar">
-          <small id="emailHelp" class="form-text text-muted"></small>
+    <hr>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <form id="search">
+                <div class="form-group">
+                  <label for="food">Search for a food</label>
+                  <input type="text" class="form-control" id="food"  placeholder='Try rice or "fig bar"'>
+                  <small id="helo" class="form-text text-muted">Try including multiple words in quotes to get better results</small>
+                </div>
+                <div class="form-group">
+                    <label for="brand">Brand Name (Optional)</label>
+                    <input type="text" class="form-control" id="brand"  placeholder="Like Lotus Foods">
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                  </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+              </form>
+              <div class="container">
+                <ul id="search-list"></ul>
+                </ul>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="brand">Brand Name (Optional)</label>
-            <input type="text" class="form-control" id="brand"  placeholder="Like Lotus Foods">
-            <small id="emailHelp" class="form-text text-muted"></small>
-          </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-</div>
-<div class="container">
-    <h3>My Meal</h3>
-    <form id="send-ids" method="POST">
-      {% include 'form.html' %}
-     <button class="btn btn-success">Create Meal</button>
-    </form>
-    <h4>Ingredients</h4>
-    <ul id="meal-list">
-    </ul>
-</div>
-<div class="container">
-    <ul id="search-list"></ul>
-    </ul>
-</div>
-<div class="container">
-{% if 'trip_id' in session %}
-<span><a href="{{url_for('select_meals', trip_id=session.get('trip_id'))}}" class="btn btn-info">Go Back to Selecting Meals</a></span>
-{% endif %}
-</div>
-</div>
+
+        <div class="col-12 col-sm-6">
+            <h3 class="text-center">My Meal</h3>
+            <form id="send-ids" method="POST">
+            {% include 'form.html' %}
+                
+            <h4 class="text-center">Ingredients</h4>
+            <ul id="meal-list" class="my-3">
+            </ul>
+            <button class="btn btn-success ">Create Meal</button>
+            </form> 
+        </div>
+    </div>
+        <div class="container">
+        {% if 'trip_id' in session %}
+        <span><a href="{{url_for('select_meals', trip_id=session.get('trip_id'))}}" class="btn btn-info">Go Back to Selecting Meals</a></span>
+        {% endif %}
+        </div>
+        </div>
 {% endblock %}
 
 {% block scripts %}
