@@ -48,7 +48,7 @@ class CreateMealForm(FlaskForm):
     third_i = HiddenField()
     fourth_i = HiddenField()
     title = StringField('Name of Meal', validators=[DataRequired()])
-    type_ = StringField('Type of Meal', validators=[DataRequired(), AnyOf(["Breakfast", "Lunch", "Dinner"], message="You Must pick Breakfast, Lunch, or Dinner")])
+    type_ = SelectField('Type of Meal', choices=[("Breakfast","Breakfast"), ("Lunch","Lunch"),("Dinner","Dinner")], validators=[DataRequired()])
     
 class CreateUserAccount(FlaskForm):
 

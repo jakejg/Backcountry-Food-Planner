@@ -21,17 +21,21 @@
     <div class="row">
         <div class="col-12 col-sm-6">
             <form id="search">
+                <h3 class="text-center">Search for a food</h3>
                 <div class="form-group">
-                  <label for="food">Search for a food</label>
+                    <label for="food">Food name</label>
                   <input type="text" class="form-control" id="food"  placeholder='Try rice or "fig bar"'>
-                  <small id="helo" class="form-text text-muted">Try including multiple words in quotes to get better results</small>
+                  <small id="help" class="form-text text-muted">Try including multiple words in quotes to get better results</small>
                 </div>
                 <div class="form-group">
                     <label for="brand">Brand Name (Optional)</label>
                     <input type="text" class="form-control" id="brand"  placeholder="Like Lotus Foods">
-                    <small id="emailHelp" class="form-text text-muted"></small>
+                    <small id="help" class="form-text text-muted"></small>
                   </div>
                 <button type="submit" class="btn btn-primary">Search</button>
+                {% if 'trip_id' in session %}
+                <span><a href="{{url_for('select_meals', trip_id=session.get('trip_id'))}}" class="btn btn-outline-secondary">Go Back to Selecting Meals</a></span>
+                {% endif %}
               </form>
               <div class="container">
                 <ul id="search-list"></ul>
@@ -51,12 +55,7 @@
             </form> 
         </div>
     </div>
-        <div class="container">
-        {% if 'trip_id' in session %}
-        <span><a href="{{url_for('select_meals', trip_id=session.get('trip_id'))}}" class="btn btn-info">Go Back to Selecting Meals</a></span>
-        {% endif %}
-        </div>
-        </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
