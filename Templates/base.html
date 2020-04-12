@@ -7,29 +7,30 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a href="{{url_for('home')}}" class="navbar-brand fas fa-hiking fa-3x"></a>
+    <nav class="navbar navbar-expand-sm navbar-light ">
+        <a href="{{url_for('home')}}" class="navbar-brand fas fa-mountain fa-3x"></a>
+        <h2 id="title" class="m-0">Meal Planner</h2>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul class="navbar-nav">
-            {% if 'user_id' in session %}
-            <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('user_info', username=g.user.username)}}">{{g.user.first_name}}</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-            </li>
-            {% else %}
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('register')}}">Create Account</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('login')}}">Login</a>
-            </li>
-            {% endif %}
-          </ul>
+            <ul class="navbar-nav">
+              {% if 'user_id' in session %}
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{url_for('user_info', username=g.user.username)}}">{{g.user.first_name}}</a>
+              </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+              </li>
+              {% else %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('register')}}">Create Account</a>
+              </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{url_for('login')}}">Login</a>
+              </li>
+              {% endif %}
+            </ul>
         </div>
       </nav>
       {% for msg in get_flashed_messages() %}
