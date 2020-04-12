@@ -1,12 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-center">Trip Info</h1>
-<div class="container">
-<form method="POST">
-    {% include 'form.html' %}
-  
-    <button class="btn btn-primary" type="submit">Select Meals</button>
-</form>
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <div class="col-6 ">
+            <p id="intro" class="text-center">Pack only what you need</p>
+        </div>
+        <div class="col-6 p-0">
+            <img class="img-fluid" src="{{url_for('static', filename='images/forest-hike.jpg')}}" alt="">
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-6 p-0">
+            <img class="img-fluid" src="{{url_for('static', filename='images/mountain-run.jpg')}}" alt="">
+        </div>
+        <div class="col-6">
+            <p id="intro" class="text-center">To live your wildest adventures</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+        </div>
+        <div class="col-4 mt-2">
+            <h3 class="text-center">Start Your Trip</h3>
+                <form method="POST">
+                {% include 'form.html' %}
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Select Meals</button>
+                </div>
+                </form>
+        </div>
+        <div class="col-4">
+        </div>
+    </div>
 </div>
+
 {% endblock %}
