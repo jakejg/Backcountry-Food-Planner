@@ -65,7 +65,7 @@ def select_meals(trip_id):
     meal_data = trip.get_meal_numbers()
 
     fields = populate_select_meal_form(meal_data)
-    
+
     form = SelectMealForm()
     
     for key, value in fields.items():
@@ -79,7 +79,7 @@ def select_meals(trip_id):
                 db.session.commit()
 
         return redirect(url_for('show_meal_plan', trip_id=trip.id))
-
+   
     return render_template('select_meals.html', meal_data=meal_data, form=form)
 
 @app.route('/meal-plan/<int:trip_id>')
@@ -91,7 +91,7 @@ def show_meal_plan(trip_id):
     meals = trip.trip_meal
     nutrition_data = [meal.meals.get_total_nutrition_data() for meal in meals]
    
-    return render_template('meal_plan.html', meals=meals, meal_numbers=meal_numbers, nutrition_data=nutrition_data)
+    return render_template('meal_plan.html', trip=trip, meals=meals, meal_numbers=meal_numbers, nutrition_data=nutrition_data)
 
 @app.route('/packing-list/<int:trip_id>')
 def show_packing_list(trip_id):
@@ -236,4 +236,3 @@ def authorize(user_id):
 
     return user_id == session.get('user_id')
          
-    

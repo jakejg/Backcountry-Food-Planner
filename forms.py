@@ -9,10 +9,10 @@ from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired
 class TripForm(FlaskForm):
     """Form for creating a trip"""
 
-    start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M')
-    end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M')
+    start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
+    end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
     number_of_people = IntegerField('Number of people', validators=[DataRequired()] )
-    name = StringField('Give your trip a name')
+    name = StringField('Give your trip a name', validators=[DataRequired()])
 
 def validate_dates(start, end):
 
@@ -23,7 +23,11 @@ class SelectMealForm(FlaskForm):
     """Form for selecting meals from a list"""
 
 def populate_select_meal_form(meal_data):
-    """Add fields to the select meal form for each meal"""
+    """Delete old fields and add new fields to the select meal form for each meal"""
+    for field in SelectMealForm()._fields:
+        if field != 'csrf_token':
+            delattr(SelectMealForm, field)
+    
     fields = {}
 
     for n in range(meal_data["Breakfast"]):
@@ -38,8 +42,10 @@ def populate_select_meal_form(meal_data):
     for key, value in fields.items():
         if meal_data[value] > 0:
             setattr(SelectMealForm, key, SelectField(value, coerce=int))
-    
+  
     return fields
+
+
 
 class CreateMealForm(FlaskForm):
 
