@@ -2,11 +2,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-center">Meal Information</h1>
+<h1 class="text-center">Your Meal Plan</h1>
 <h3 class="text-center">You have {{meal_numbers["total_meals"]}} meals</h3>
 
 <div class="container">
-<h4>Breakfasts <span>{{meal_numbers["Breakfast"]}}</span></h4>
+<h4>{{meal_numbers["Breakfast"]}} Breakfasts</h4>
 {% for i in range(meals|length) %}
     {% if meals[i].meals.type_ == "Breakfast" %}
     <div class="accordion" id="accordion">
@@ -38,7 +38,7 @@
     </div> 
     {% endif %}  
 {% endfor %}
-<h4>Lunches <span>{{meal_numbers["Lunch"]}}</span></h4>
+<h4>{{meal_numbers["Lunch"]}} Lunches</h4>
 {% for i in range(meals|length) %}
     {% if meals[i].meals.type_ == "Lunch" %}
     <div class="accordion" id="accordion">
@@ -70,7 +70,7 @@
     </div> 
     {% endif %} 
 {% endfor %}
-<h4>Dinners <span>{{meal_numbers["Dinner"]}}</span></h4>
+<h4>{{meal_numbers["Dinner"]}} Dinners</h4>
 {% for i in range(meals|length) %}
     {% if meals[i].meals.type_ == "Dinner" %}
     <div class="accordion" id="accordion">
@@ -103,7 +103,7 @@
     {% endif %} 
 {% endfor %}
 </div>
-<div class="container">
+<div class="container my-3">
   <a href="{{url_for('show_packing_list', trip_id=meals[0].trip_id)}}" class="btn btn-success">Get printable packing list</a>
 </div>
 {% endblock %}

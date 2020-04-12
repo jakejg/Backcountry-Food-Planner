@@ -2,7 +2,22 @@
 
 
 {% block content %}
-<h1 class="text-center">Create a Meal</h1>
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <div class="col-6 ">
+            <p class="i text-center">Create a meal</p>
+            <div class="ml-sm-5">
+                Search for ingredients with keywords and brand names<br>
+                Select up to four ingredients.<br>
+                The first two ingredients will make up the bulk of the meal.<br>
+                The last two ingredients are supplimental.<br>
+            </div>
+        </div>
+        <div class="col-6 p-0">
+            <img class="img-fluid" src="{{url_for('static', filename='images/cooking.jpg')}}" alt="">
+        </div>
+    </div>
+
 <div id="top" class="container">
     <form id="search">
         <div class="form-group">
@@ -25,7 +40,6 @@
      <button class="btn btn-success">Create Meal</button>
     </form>
     <h4>Ingredients</h4>
-    <small>Please select up to four ingredients. The first two ingredients will make up the bulk of the meal, the last two ingredients are supplimental.</small>
     <ul id="meal-list">
     </ul>
 </div>
@@ -37,6 +51,7 @@
 {% if 'trip_id' in session %}
 <span><a href="{{url_for('select_meals', trip_id=session.get('trip_id'))}}" class="btn btn-info">Go Back to Selecting Meals</a></span>
 {% endif %}
+</div>
 </div>
 {% endblock %}
 
