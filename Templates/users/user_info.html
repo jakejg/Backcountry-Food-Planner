@@ -2,24 +2,31 @@
 
 {% block content %}
 <h1 class="text-center">{{user.first_name}} {{user.last_name}}</h1>
-<ul style="list-style: none;">
+<ul class="text-center">
     <li><b>Username:</b> {{user.username}}</li>
 </ul>
-<h3>Trips</h3>
-{% if user.trips %}
-  <ul>
-      {% for trip in user.trips %}
-        <li>
-      {% if trip.meals %}
-        <a href="{{url_for('show_meal_plan', trip_id=trip.id)}}">
-      {% else %}
-       <a href="{{url_for('select_meals',  trip_id=trip.id)}}">
-      {% endif %}
-        {{trip.name}}</a>
-        </li>
-      {% endfor %}
-  </ul>
-  {% else %}
-  <p>You don't have any trips yet</p>
-  {% endif %}
-{% endblock %}
+<hr>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <h3>Trips</h3>
+            {% if user.trips %}
+              <ul>
+                  {% for trip in user.trips %}
+                    <li>
+                  {% if trip.meals %}
+                    <a href="{{url_for('show_meal_plan', trip_id=trip.id)}}">
+                  {% else %}
+                   <a href="{{url_for('select_meals',  trip_id=trip.id)}}">
+                  {% endif %}
+                    {{trip.name}}</a>
+                    </li>
+                  {% endfor %}
+              </ul>
+              {% else %}
+              <p>You don't have any trips yet</p>
+              {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
