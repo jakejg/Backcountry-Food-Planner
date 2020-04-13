@@ -44,7 +44,7 @@ async function handlesubmit(evt){
 
 function displayResults(resp){
     $searchList.empty()
-    for (food of resp.foods){
+    for (food of resp){
         let $item = $(`<li class="list-group-item" data-id=${food.fdcId}>${food.description}<br>
             <small class="text-muted" data-id=${food.fdcId}>${food.ingredients}</small><br>
             ${food.brandOwner}</li>

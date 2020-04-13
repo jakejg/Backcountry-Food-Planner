@@ -1,8 +1,8 @@
 import os
-from flask import Flask, render_template, request, flash, redirect, session, g, url_for
+from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
 from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form
-from api_requests import search_for_a_food, get_nutrition_data
+from api_requests import search_for_a_food, get_nutrition_data, get_data_from_api_results
 from unit_conversions import to_lbs
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
@@ -139,8 +139,10 @@ def api():
     """Get search term from, and return data"""
 
     params = request.json['params']
-   
-    return search_for_a_food(params.get('item'), params.get('brandOwner'))
+
+    search_result = search_for_a_food(params.get('item'), params.get('brandOwner'))
+    
+    return jsonify(get_data_from_api_results(search_result))
 
 # User Routes///////////////////////////////
 

@@ -28,3 +28,20 @@ def get_nutrition_data(fdc_id):
     nutrition_data = requests.get(f"{base_url}/food/{fdc_id}?api_key={fdc_key}").json()
    
     return nutrition_data
+
+def get_data_from_api_results(api_resp):
+    """Get food name, ingredient list, fdcId, and brand from api data"""
+    food_list= []
+
+    for food in api_resp.get('foods'):
+        item = { 
+            "description": food.get("description"),
+            "brandOwner" : food.get("brandOwner"),
+            "ingredients" : food.get("ingredients"),
+            "fdcId" : food.get("fdcId")
+        }   
+        food_list.append(item)
+    
+    return food_list
+
+
