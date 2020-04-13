@@ -77,8 +77,12 @@ def select_meals(trip_id):
 
     form = SelectMealForm()
     
+    user = User.query.get(trip.user_id)
+
+    meal_list = [*user.meals, *Meal.get_public_meals()]
+
     for key, value in fields.items():
-        form[key].choices = [(m.id, m.title) for m in Meal.query.filter_by(type_=value)]
+        form[key].choices = [(m.id, m.title) for m in [*Meal.query.filter(Meal.type_==value, Meal.public==True), *Meal.query.filter(Meal.type_==value, Meal.user_id==trip.user_id)]]
     
     if form.validate_on_submit():
         for key, value in form.data.items():
@@ -121,7 +125,7 @@ def show_create_meal_page():
   
     if form.validate_on_submit():  
         
-        meal = Meal(title=form.title.data, type_=form.type_.data)
+        meal = Meal(title=form.title.data, type_=form.type_.data, user_id=session.get('user_id'))
 
         for key, value in form.data.items():
             

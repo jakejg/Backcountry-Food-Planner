@@ -26,6 +26,8 @@ class User(db.Model):
                         nullable=False)
     trips = db.relationship('Trip', backref='user')
 
+    meals = db.relationship('Meal', backref='user')
+
     @classmethod
     def register(cls, username, password, email, first_name, last_name):
         """Generate a hash for a password and return a new instance of user """
@@ -167,6 +169,11 @@ class Meal(db.Model):
     weight = db.Column(db.Float,
                         default=317.515)
 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    public = db.Column(db.Boolean,
+                        default=False)
+
     def get_ingredient_weights(self):
         ing = self.ingredients
      
@@ -211,6 +218,11 @@ class Meal(db.Model):
                 total[nutrient] = round(total.get(nutrient, 0) + amount, 2)
             
         return total
+
+    @classmethod
+    def get_public_meals(cls):
+        """Retreive a list of public meals from the database"""
+        return Meal.query.filter_by(public=True).all()
     
     def check_for_diets(self):
         # not finished

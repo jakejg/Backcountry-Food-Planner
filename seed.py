@@ -23,7 +23,9 @@ db.session.commit()
 
 # breakfast
 b1 = Meal(title="Oatmeal", 
-        type_="Breakfast"
+        type_="Breakfast",
+        user_id=u.id,
+        public=True
         )
 
 oats = create_ingredient(get_nutrition_data(368739))
@@ -37,7 +39,9 @@ b1.ingredients.append(sugar)
 
 
 b2 = Meal(title="Granola", 
-        type_="Breakfast"
+        type_="Breakfast",
+        user_id=u.id,
+        public=True
        )
 granola = create_ingredient(get_nutrition_data(473897))
 b2.ingredients.append(granola)
@@ -47,7 +51,9 @@ b2.ingredients.append(coconut_milk)
 
 # lunch
 l1 = Meal(title="Pita and Hummus", 
-        type_="Lunch"
+        type_="Lunch",
+        user_id=u.id,
+        public=True
         )
 
 pita = create_ingredient(get_nutrition_data(384233))
@@ -58,7 +64,9 @@ l1.ingredients.append(hummus)
 
 
 l2 = Meal(title="Peanut Butter, Raisins, and Honey", 
-        type_="Lunch"
+        type_="Lunch",
+        user_id=u.id,
+        public=True
         )
 pita = create_ingredient(get_nutrition_data(384233))
 l2.ingredients.append(pita)
@@ -75,7 +83,9 @@ l2.ingredients.append(honey)
 
 # dinner
 d1 = Meal(title="Rice and Beans", 
-        type_="Dinner"
+        type_="Dinner",
+        user_id=u.id,
+        public=True
         )
 
 rice = create_ingredient(get_nutrition_data(447921))
@@ -86,7 +96,9 @@ d1.ingredients.append(beans)
 
 
 d2 = Meal(title="Pasta", 
-        type_="Dinner"
+        type_="Dinner",
+        user_id=u.id,
+        public=True
         )
 
 pasta = create_ingredient(get_nutrition_data(370815))
