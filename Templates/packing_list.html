@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-center">Packing List</h1>
+<h1 class=" i text-center">{{trip.name}}</h1>
+<div class="container mt-4">
+  <div class="row justify-content-center">
 <table>
     <thead>
       <tr>
@@ -27,4 +29,6 @@
       </tr>
     </tfoot>
   </table>
+</div>
+</div>
 {% endblock %}
