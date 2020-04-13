@@ -1,17 +1,24 @@
 from app import db, create_ingredient, get_nutrition_data
 from datetime import datetime, timedelta
-from models import Meal, TripMeal, Trip
+from models import Meal, TripMeal, Trip, User
 
 
 db.drop_all()
 db.create_all()
 
+u = User.register("guestuser", "123" , "guest@email.com", "guest", "guest")
+
+db.session.add(u)
+db.session.commit()
+
 t = Trip(start_date_time=datetime(2020, 4, 8, 10, 00), 
         end_date_time=datetime(2020, 4, 11, 15, 00),
-        number_of_people=3)
+        number_of_people=3,
+        user_id=u.id)
 
 db.session.add(t)
 db.session.commit()
+
 
 
 # breakfast

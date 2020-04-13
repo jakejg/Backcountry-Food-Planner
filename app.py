@@ -33,6 +33,11 @@ def add_user_to_g():
 def home():
     """Show form for creating a trip"""
 
+    # check if user is logged in if not log them in as a guest user
+    if 'user_id' not in  session:
+        User.log_in_as_guest()
+
+
     form = TripForm()
 
     if form.validate_on_submit():
@@ -62,6 +67,10 @@ def select_meals(trip_id):
     """Select meals for a trip"""
 
     trip = Trip.query.get_or_404(trip_id)
+
+    if not authorize(trip.user_id):
+        raise Unauthorized()
+    
     meal_data = trip.get_meal_numbers()
 
     fields = populate_select_meal_form(meal_data)
@@ -87,6 +96,10 @@ def show_meal_plan(trip_id):
     """Show meal numbers and nutrition info, organized by meal type"""
 
     trip = Trip.query.get_or_404(trip_id)
+
+    if not authorize(trip.user_id):
+        raise Unauthorized()
+
     meal_numbers = trip.get_meal_numbers()
     meals = trip.trip_meal
     nutrition_data = [meal.meals.get_total_nutrition_data() for meal in meals]
@@ -152,6 +165,7 @@ def register():
             flash("Username already taken", 'danger')
             return render_template('/users/register.html', form=form)
 
+        session.clear()
         session['user_id'] = user.id
         return redirect(url_for('user_info', username=user.username))
 
@@ -168,6 +182,7 @@ def login():
         user = User.login(f.username.data, f.password.data)
         
         if user:
+            session.clear()
             session['user_id'] = user.id
             return redirect(url_for('user_info', username=user.username))
 
@@ -183,7 +198,7 @@ def login():
 def user_info(username):
     """Show info about a user"""
 
-    user = User.query.filter_by(username=username).first()
+    user = User.get_by_username(username)
 
     if not authorize(user.id):
         raise Unauthorized()
@@ -194,7 +209,7 @@ def user_info(username):
 @app.route('/logout')
 def logout():
     """Log a user out"""
-    session.pop('user_id')
+    session.clear()
     flash("You are now logged out")
     return redirect(url_for('home'))
 

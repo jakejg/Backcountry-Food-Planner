@@ -34,7 +34,9 @@
                 {% include 'form.html' %}
                 <div class="text-center">
                     <button class="btn btn-primary" type="submit">Select Meals</button>
+                    {% if 'user_id' not in session %}
                     <small class="d-block">Create an account/sign in to save your trips</small>
+                    {% endif %}
                 </div>
                 </form>
         </div>

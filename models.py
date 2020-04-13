@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime, timedelta
+from flask import session
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from unit_conversions import to_lbs
@@ -46,6 +47,15 @@ class User(db.Model):
             return user
         else: 
             return False
+    
+    @classmethod
+    def get_by_username(cls, username):
+        return User.query.filter_by(username=username).first()
+
+    @classmethod
+    def log_in_as_guest(cls):
+        guestuser = cls.get_by_username(username="guestuser")
+        session['user_id'] = guestuser.id
 
 
 class Trip(db.Model):
@@ -201,6 +211,28 @@ class Meal(db.Model):
                 total[nutrient] = round(total.get(nutrient, 0) + amount, 2)
             
         return total
+    
+    def check_for_diets(self):
+        # not finished
+        not_vegetarian = {"PORK", "BEEF", "SAUSAGE", "CHICKEN", "GELATIN", "BACON", "LARD"}
+        not_vegan = {*not_vegetarian, "MILK", "CHEESE", "EGGS", "EGG WHITES", "WHOLE EGGS", "WHEY", }
+        contains = set()
+
+        for ingredient in self.ingredients:
+            ingredients = set(ingredient.ingredient_list)
+
+            veg = not_vegetarian&ingredients
+            vegan = not_vegan&ingredients
+    
+            for item in veg:
+                contains.add(item)
+            for item in vegan:
+                contains.add(item)
+            
+
+        return contains
+        
+
 
 class Ingredient(db.Model):
 
