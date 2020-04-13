@@ -46,7 +46,8 @@ function displayResults(resp){
     $searchList.empty()
     for (food of resp.foods){
         let $item = $(`<li class="list-group-item" data-id=${food.fdcId}>${food.description}<br>
-            <small class="text-muted" data-id=${food.fdcId}>${food.ingredients}</small></li>
+            <small class="text-muted" data-id=${food.fdcId}>${food.ingredients}</small><br>
+            ${food.brandOwner}</li>
             `)
         $searchList.append($item)
         }
@@ -55,11 +56,18 @@ function displayResults(resp){
 function selectFood(evt){
     
     if (SELECTED_FOODS.length < 4){
-        $item = $(evt.target)
+        if (evt.target.tagName === 'LI') {
+            $item = $(evt.target)
+        }
+        else{
+            $item = $(evt.target).parent()
+        }
+
         //add color and spacing
-        $item.addClass('bg-info my-1 rounded')
+        $item.addClass('my-1 rounded').css('background-color', 'rgb(245, 235, 181)')
         //add to my ingredients
-        $item.prepend('<i class="fas fa-trash m-1"></i>')
+        $item.append('<i class="fas fa-trash m-1"></i>')
+       
 
         $mealList.append($item)
         //add id to list
