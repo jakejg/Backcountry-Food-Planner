@@ -141,8 +141,13 @@ def api():
     params = request.json['params']
 
     search_result = search_for_a_food(params.get('item'), params.get('brandOwner'))
+
+    if len(search_result.content) > 1000000:
+        error_response = jsonify(error="Response is too large to display")
+        return (error_response, 500)
+
     
-    return jsonify(get_data_from_api_results(search_result))
+    return jsonify(get_data_from_api_results(search_result.json()))
 
 # User Routes///////////////////////////////
 

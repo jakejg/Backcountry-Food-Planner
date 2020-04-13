@@ -14,8 +14,8 @@ def search_for_a_food(food, brand):
         "brandOwner": brand
     }
     try:
-        search_results = requests.get(f"{base_url}/foods/search?api_key={fdc_key}", params).json()
-
+        search_results = requests.get(f"{base_url}/foods/search?api_key={fdc_key}", params)
+    
         return search_results
 
     except:
@@ -43,5 +43,6 @@ def get_data_from_api_results(api_resp):
         food_list.append(item)
     
     return food_list
+
 
 
