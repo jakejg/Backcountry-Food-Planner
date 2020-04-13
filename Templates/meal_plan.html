@@ -3,10 +3,10 @@
 
 {% block content %}
 <h1 class="text-center">{{trip.name}}</h1>
-<div class=" detail text-center">You have {{meal_numbers["total_meals"]}} meals</div>
+<div class=" detail text-center">You have {{meal_numbers["total_meals"]}}{% if meal_numbers["total_meals"] != 1 %} meals {% else %} meal {% endif %}</div>
 
 <div class="container">
-<h4>{{meal_numbers["Breakfast"]}} Breakfasts</h4>
+<h4>{{meal_numbers["Breakfast"]}}{% if meal_numbers["Breakfast"] != 1 %} Breakfasts {% else %} Breakfast {% endif %}</h4>
 {% for i in range(meals|length) %}
     {% if meals[i].meals.type_ == "Breakfast" %}
     <div class="accordion" id="accordion">
@@ -38,7 +38,7 @@
     </div> 
     {% endif %}  
 {% endfor %}
-<h4>{{meal_numbers["Lunch"]}} Lunches</h4>
+<h4>{{meal_numbers["Lunch"]}} {% if meal_numbers["Lunch"] != 1 %} Lunches {% else %} Lunch {% endif %}</h4>
 {% for i in range(meals|length) %}
     {% if meals[i].meals.type_ == "Lunch" %}
     <div class="accordion" id="accordion">
@@ -70,7 +70,7 @@
     </div> 
     {% endif %} 
 {% endfor %}
-<h4>{{meal_numbers["Dinner"]}} Dinners</h4>
+<h4>{{meal_numbers["Dinner"]}} {% if meal_numbers["Dinner"] != 1 %} Dinners {% else %} Dinner {% endif %}</h4>
 {% for i in range(meals|length) %}
     {% if meals[i].meals.type_ == "Dinner" %}
     <div class="accordion" id="accordion">
