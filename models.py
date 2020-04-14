@@ -218,11 +218,6 @@ class Meal(db.Model):
                 total[nutrient] = round(total.get(nutrient, 0) + amount, 2)
             
         return total
-
-    @classmethod
-    def get_public_meals(cls):
-        """Retreive a list of public meals from the database"""
-        return Meal.query.filter_by(public=True).all()
     
     def check_for_diets(self):
         # not finished

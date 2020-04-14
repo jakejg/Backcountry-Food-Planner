@@ -76,10 +76,6 @@ def select_meals(trip_id):
     fields = populate_select_meal_form(meal_data)
 
     form = SelectMealForm()
-    
-    user = User.query.get(trip.user_id)
-
-    meal_list = [*user.meals, *Meal.get_public_meals()]
 
     for key, value in fields.items():
         form[key].choices = [(m.id, m.title) for m in [*Meal.query.filter(Meal.type_==value, Meal.public==True), *Meal.query.filter(Meal.type_==value, Meal.user_id==trip.user_id)]]
