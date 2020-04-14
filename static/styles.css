@@ -49,3 +49,7 @@ ul {
 .fa-trash {
     cursor: pointer;
 }
+
+#desert-pan {
+    max-height: 150px;
+}

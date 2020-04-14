@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-center">{{user.first_name}} {{user.last_name}}</h1>
-<ul class="text-center">
-    <li><b>Username:</b> {{user.username}}</li>
-</ul>
+<div class="container-fluid p-0 text-center">
+  <img id="desert-pan" class="img-fluid p-0" src="{{url_for('static', filename='images/desert-pans2.jpg')}}" alt="">
+</div>
+  <h1 class="text-center">{{user.first_name}} {{user.last_name}}</h1>
+  <ul class="text-center">
+      <li><b>Username:</b> {{user.username}}</li>
+  </ul>
 <hr>
 <div class="container">
     <div class="row">
-        <div class="col-6 d-flex justify-content-center ">
+        <div class="col-6 d-flex justify-content-center">
           <div>
             <h3>Trips</h3>
             {% if user.trips %}
