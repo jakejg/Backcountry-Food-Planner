@@ -32,6 +32,26 @@
                     <li>{{key}}: {{val}}g</li>
                     {% endfor %}
                 </ul>
+                <ul>
+                  <h6>Dietary Information</h6>
+                  {% if not meals[i].meals.check_for_dietary_restrictions('vegetarian') %}
+                  <li>Vegetarian</li>
+                  {% endif %}
+                  {% if not meals[i].meals.check_for_dietary_restrictions('vegan') %}
+                  <li>Vegan</li>
+                  {% endif %}
+                  {% if not meals[i].meals.check_for_dietary_restrictions('gluten free') %}
+                  <li>Gluten-Free</li>
+                  {% endif %}
+                  
+                    {% if meals[i].meals.check_for_dietary_restrictions('all') %}
+                    <h6>Contains</h6>
+                      {% for item in meals[i].meals.check_for_dietary_restrictions('all') %}
+                      <li>{{item}}</li>
+                      {% endfor %}
+                    {% endif %}
+                  
+                </ul>
             </div>
           </div>
         </div>

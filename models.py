@@ -219,23 +219,28 @@ class Meal(db.Model):
             
         return total
     
-    def check_for_diets(self):
-        # not finished
-        not_vegetarian = {"PORK", "BEEF", "SAUSAGE", "CHICKEN", "GELATIN", "BACON", "LARD"}
-        not_vegan = {*not_vegetarian, "MILK", "CHEESE", "EGGS", "EGG WHITES", "WHOLE EGGS", "WHEY", }
+    def check_for_dietary_restrictions(self, diet):
+        not_vegetarian = {"PORK", "BEEF", "SAUSAGE", "CHICKEN", "BACON", "LARD", "HAM", "TURKEY", "FISH"}
+        not_vegan = {*not_vegetarian, "MILK", "CHEESE", "EGGS", "WHEY", "BUTTER", "CREAM", "GELATIN"}
+        not_gluten_free = {"WHEAT", "GLUTEN"}
         contains = set()
 
         for ingredient in self.ingredients:
-            ingredients = set(ingredient.ingredient_list)
 
-            veg = not_vegetarian&ingredients
-            vegan = not_vegan&ingredients
-    
-            for item in veg:
-                contains.add(item)
-            for item in vegan:
-                contains.add(item)
-            
+            if diet == 'vegan' or diet == 'all':
+                for word in not_vegan:
+                    if word in ingredient.ingredient_list:
+                        contains.add(word)
+
+            if diet == 'vegetarian' or diet == 'all':
+                for word in not_vegetarian:
+                    if word in ingredient.ingredient_list:
+                        contains.add(word)
+
+            if diet == 'gluten free' or diet == 'all':
+                for word in not_gluten_free:
+                    if word in ingredient.ingredient_list:
+                        contains.add(word)
 
         return contains
 
