@@ -238,8 +238,6 @@ class Meal(db.Model):
             
 
         return contains
-        
-
 
 class Ingredient(db.Model):
 
@@ -299,6 +297,39 @@ class Ingredient(db.Model):
                 "calcium",
                 "iron",
                 "calories"]
+
+    @classmethod
+    def create_ingredient(cls, food):
+        """Check if ingredient exists and if not 
+         create a new ingredient from a food"""
+
+        ingredient = Ingredient.query.filter_by(fdcId=food.get('fdcId')).first()
+
+        if ingredient is None:
+            if food.get('foodClass') == "Branded":
+                n = food.get('labelNutrients')
+                ingredient = Ingredient(name=food.get('description'),
+                                         fdcId=food.get('fdcId'),
+                                         brand=food.get('brandOwner'),
+                                         ingredient_list=food.get('ingredients', "No Ingredients Listed"),
+                                         serving_size=food.get('servingSize', 0),
+                                         serving_size_unit=food.get('servingSizeUnit'),
+                                         fat=n.get('fat', 0).get('value', 0),
+                                         saturated_fat=n.get('saturatedFat', {}).get('value',0),
+                                         trans_fat=n.get('transFat', {}).get('value',0),
+                                         cholesterol=n.get('cholesterol', {}).get('value',0),
+                                         sodium=n.get('sodium', {}).get('value',0),
+                                         carbohydrates=n.get('carbohydrates', {}).get('value',0),
+                                         fiber=n.get('fiber', {}).get('value',0),
+                                         sugars=n.get('sugars', {}).get('value',0),
+                                         protein=n.get('protein', {}).get('value',0),
+                                         calcium=n.get('calcium', {}).get('value',0),
+                                         iron=n.get('iron', {}).get('value',0),
+                                         calories=n.get('calories', {}).get('value',0))
+                db.session.add(ingredient)
+                db.session.commit()
+
+        return ingredient
 
 
 class MealIngredient(db.Model):

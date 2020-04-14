@@ -126,7 +126,7 @@ def show_create_meal_page():
         for key, value in form.data.items():
             
             if key != 'csrf_token' and key != 'title' and key !='type_' and value:
-                ingr = create_ingredient(get_nutrition_data(value))
+                ingr = Ingredient.create_ingredient(get_nutrition_data(value))
                 meal.ingredients.append(ingr)
                 db.session.commit()
 
@@ -219,39 +219,6 @@ def logout():
     session.clear()
     flash("You are now logged out")
     return redirect(url_for('home'))
-
-
-def create_ingredient(food):
-    """Check if ingredient exists and if not 
-     create a new ingredient from a food"""
-
-    ingredient = Ingredient.query.filter_by(fdcId=food['fdcId']).first()
-
-    if ingredient is None:
-        if food['foodClass'] == "Branded":
-            n = food['labelNutrients']
-            ingredient = Ingredient(name=food['description'],
-                                     fdcId=food['fdcId'],
-                                     brand=food['brandOwner'],
-                                     ingredient_list=food.get('ingredients', "No Ingredients Listed"),
-                                     serving_size=food.get('servingSize', 0),
-                                     serving_size_unit=food.get('servingSizeUnit'),
-                                     fat=n.get('fat', 0).get('value', 0),
-                                     saturated_fat=n.get('saturatedFat', {}).get('value',0),
-                                     trans_fat=n.get('transFat', {}).get('value',0),
-                                     cholesterol=n.get('cholesterol', {}).get('value',0),
-                                     sodium=n.get('sodium', {}).get('value',0),
-                                     carbohydrates=n.get('carbohydrates', {}).get('value',0),
-                                     fiber=n.get('fiber', {}).get('value',0),
-                                     sugars=n.get('sugars', {}).get('value',0),
-                                     protein=n.get('protein', {}).get('value',0),
-                                     calcium=n.get('calcium', {}).get('value',0),
-                                     iron=n.get('iron', {}).get('value',0),
-                                     calories=n.get('calories', {}).get('value',0))
-            db.session.add(ingredient)
-            db.session.commit()
-
-    return ingredient
 
 def authorize(user_id):
     """ Check if a user has permission to access a page"""
