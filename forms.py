@@ -19,6 +19,13 @@ def validate_dates(start, end):
     if end < start:
         return True
 
+def validate_length(start, end):
+
+    if end.day == start.day:
+        return True
+
+    
+
 class SelectMealForm(FlaskForm):
     """Form for selecting meals from a list"""
 

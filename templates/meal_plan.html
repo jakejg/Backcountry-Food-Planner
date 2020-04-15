@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 
 {% macro meal_type(type) %}
-<h4>{{meal_numbers[type]}}{% if meal_numbers[type] != 1 %} Breakfasts {% else %} Breakfast {% endif %}</h4>
+<h4>{{meal_numbers[type]}}{% if meal_numbers[type] != 1 %} {{type + "s"}} {% else %} {{type}} {% endif %}</h4>
 {% for i in range(meals|length) %}
     {% if meals[i].meals.type_ == type %}
     <div class="accordion" id="accordion">

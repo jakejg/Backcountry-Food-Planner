@@ -83,8 +83,10 @@ class Trip(db.Model):
     trip_meal = db.relationship('TripMeal', backref='trips')
 
     def get_bc_days(self):
-        return (self.end_date_time - self.start_date_time).days - 1
-        
+        """Gets number of full trip days or bc days"""
+        bc_days = (self.end_date_time - self.start_date_time).days -1
+        return bc_days if bc_days > 0 else 0
+            
     
     def get_date_range(self):
 
@@ -100,7 +102,7 @@ class Trip(db.Model):
         """Get numbers for each type of meal"""
 
         bc_meals = self.get_bc_days()
-
+        
         breakfasts = bc_meals 
         lunches = bc_meals 
         dinners = bc_meals 
