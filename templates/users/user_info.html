@@ -26,9 +26,11 @@
                    {{trip.name}}</a>
                    </li>
                  {% endfor %}
+                 <a href="{{url_for('home')}}">Create a new trip</a>
              </ul>
              {% else %}
                <p>You don't have any trips yet</p>
+               <a href="{{url_for('home')}}">Create a new trip</a>
              {% endif %}
           </div>
         </div>
