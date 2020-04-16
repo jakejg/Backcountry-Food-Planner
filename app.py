@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
-from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_length
+from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_length, validate_number_of_people
 from api_requests import search_for_a_food, get_nutrition_data, get_data_from_api_results
 from unit_conversions import to_lbs
 from sqlalchemy.exc import IntegrityError
@@ -47,6 +47,13 @@ def home():
             form.end_date_time.errors = ["Trip must be at least one night"]
         
             return render_template('create_trip.html', form=form)
+
+        if validate_number_of_people(form.number_of_people.data):
+
+            form.number_of_people.errors = ["Please enter at least 1 person"]
+
+            return render_template('create_trip.html', form=form)
+
 
         # check if user is logged in if not log them in as a guest user
 

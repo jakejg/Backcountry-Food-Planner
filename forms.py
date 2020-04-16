@@ -9,9 +9,9 @@ from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired
 class TripForm(FlaskForm):
     """Form for creating a trip"""
 
-    start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
-    end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
-    number_of_people = IntegerField('Number of people', validators=[DataRequired()] )
+    start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M', validators=[DataRequired(message="Enter a date mm/dd/yyy and time")])
+    end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M', validators=[DataRequired(message="Enter a date mm/dd/yyy and time")])
+    number_of_people = IntegerField('Number of people', validators=[InputRequired()] )
     name = StringField('Give your trip a name', validators=[DataRequired()])
 
 def validate_dates(start, end):
@@ -24,6 +24,9 @@ def validate_length(start, end):
     if end.day == start.day:
         return True
 
+def validate_number_of_people(num):
+    if num < 1:
+        return True
     
 
 class SelectMealForm(FlaskForm):
