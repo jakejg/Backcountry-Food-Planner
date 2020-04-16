@@ -115,7 +115,13 @@ def show_meal_plan(trip_id):
 
 @app.route('/packing-list/<int:trip_id>')
 def show_packing_list(trip_id):
+    """Show a printable packing list with ingredients and wieghts"""
+    
     trip = Trip.query.get_or_404(trip_id)
+
+    if not authorize(trip.user_id):
+        raise Unauthorized()
+
     weights = trip.get_total_ingredient_weights()
     weights = {key: to_lbs(val) for key, val in weights.items()}
 
@@ -229,7 +235,7 @@ def logout():
     session.clear()
 
     User.log_in_as_guest()
-    
+
     flash("You are now logged out")
     return redirect(url_for('home'))
 
