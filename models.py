@@ -90,11 +90,6 @@ class User(db.Model):
         session['user_id'] = guestuser.id
         session['guest'] = True
 
-       
-      
-        
-
-
 class Trip(db.Model):
 
     __tablename__ = "trips"
@@ -120,7 +115,8 @@ class Trip(db.Model):
     def get_bc_days(self):
         """Gets number of full trip days or bc days"""
 
-        bc_days = (self.end_date_time.day - self.start_date_time.day) -1
+        bc_days = (self.end_date_time.date() - self.start_date_time.date()).days -1
+        
         return bc_days if bc_days > -1 else 0
             
     def get_date_range(self):
