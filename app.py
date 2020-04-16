@@ -33,11 +33,6 @@ def add_user_to_g():
 def home():
     """Show form for creating a trip"""
 
-    # check if user is logged in if not log them in as a guest user
-    if 'user_id' not in  session:
-        User.log_in_as_guest()
-
-
     form = TripForm()
 
     if form.validate_on_submit():
@@ -52,6 +47,11 @@ def home():
             form.end_date_time.errors = ["Trip must be at least one night"]
         
             return render_template('create_trip.html', form=form)
+
+        # check if user is logged in if not log them in as a guest user
+
+        if 'user_id' not in session:
+            User.log_in_as_guest()
 
   
         trip = Trip(start_date_time=form.start_date_time.data,
@@ -171,7 +171,8 @@ def register():
                                 f.password.data,
                                 f.email.data,
                                 f.first_name.data,
-                                f.last_name.data)
+                                f.last_name.data,
+                                False)
             db.session.add(user)
             db.session.commit()
 
@@ -181,6 +182,7 @@ def register():
 
         session.clear()
         session['user_id'] = user.id
+        session['guest'] = False
         return redirect(url_for('user_info', username=user.username))
 
     return render_template('/users/register.html', form=form)
@@ -198,6 +200,7 @@ def login():
         if user:
             session.clear()
             session['user_id'] = user.id
+            session['guest'] = False
             return redirect(url_for('user_info', username=user.username))
 
         elif user is None:
@@ -224,6 +227,9 @@ def user_info(username):
 def logout():
     """Log a user out"""
     session.clear()
+
+    User.log_in_as_guest()
+    
     flash("You are now logged out")
     return redirect(url_for('home'))
 

@@ -4,6 +4,8 @@ from flask import session
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from unit_conversions import to_lbs
+from random_word import get_random_word
+
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -24,18 +26,39 @@ class User(db.Model):
                     nullable=False)
     password = db.Column(db.Text, 
                         nullable=False)
+    guest = db.Column(db.Boolean,
+                        nullable=False)
     trips = db.relationship('Trip', backref='user')
 
     meals = db.relationship('Meal', backref='user')
 
     @classmethod
-    def register(cls, username, password, email, first_name, last_name):
-        """Generate a hash for a password and return a new instance of user """
+    def register(cls, username, password, email, first_name, last_name, guest):
+        """Generate a hash for a password and create a new user or update a guest user"""
 
         hashed = bcrypt.generate_password_hash(password)
         hashed_utf8 = hashed.decode("utf8")
 
-        return cls(username=username, password=hashed_utf8, email=email, first_name=first_name, last_name=last_name)
+        if 'user_id' in session:
+            user = User.query.get(session.get('user_id'))
+
+            user.username=username, 
+            user.password=hashed_utf8, 
+            user.email=email, 
+            user.first_name=first_name, 
+            user.last_name=last_name, 
+            user.guest=guest
+
+            return user
+
+        else:
+            return cls(username=username,
+                    password=hashed_utf8,
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name,
+                    guest=guest)
+
     
     @classmethod
     def login(cls, username, password):
@@ -56,8 +79,20 @@ class User(db.Model):
 
     @classmethod
     def log_in_as_guest(cls):
-        guestuser = cls.get_by_username(username="guestuser")
+        """Create a new guest user and log them in"""
+
+        word = get_random_word(4) + get_random_word(4)
+        guestuser = cls.register(word, "123", word, word, word, True)
+
+        db.session.add(guestuser)
+        db.session.commit()
+
         session['user_id'] = guestuser.id
+        session['guest'] = True
+
+       
+      
+        
 
 
 class Trip(db.Model):
@@ -84,10 +119,10 @@ class Trip(db.Model):
 
     def get_bc_days(self):
         """Gets number of full trip days or bc days"""
-        bc_days = (self.end_date_time - self.start_date_time).days -1
-        return bc_days if bc_days > 0 else 0
+
+        bc_days = (self.end_date_time.day - self.start_date_time.day) -1
+        return bc_days if bc_days > -1 else 0
             
-    
     def get_date_range(self):
 
         one_day = timedelta(days=1)
@@ -102,7 +137,6 @@ class Trip(db.Model):
         """Get numbers for each type of meal"""
 
         bc_meals = self.get_bc_days()
-        
         breakfasts = bc_meals 
         lunches = bc_meals 
         dinners = bc_meals 

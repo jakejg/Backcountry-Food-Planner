@@ -15,19 +15,19 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-              {% if session['user_id'] != 1 %}
-              <li class="nav-item active">
-                  <a class="nav-link" href="{{url_for('user_info', username=g.user.username)}}">{{g.user.first_name}}</a>
-              </li>
-              <li class="nav-item active">
-                  <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-              </li>
-              {% else %}
+              {% if session.get('guest', True) %}
               <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('register')}}">Create Account</a>
               </li>
               <li class="nav-item active">
                   <a class="nav-link" href="{{url_for('login')}}">Login</a>
+              </li>
+              {% else %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('user_info', username=g.user.username)}}">{{g.user.first_name}}</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
               </li>
               {% endif %}
             </ul>
