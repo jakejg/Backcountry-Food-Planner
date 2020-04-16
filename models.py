@@ -390,6 +390,14 @@ class TripMeal(db.Model):
 
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'))
 
+    @classmethod
+    def delete_old_trip_meals(self, trip):
+        """Clear meal associations for a trip"""
+
+        for trip_meal in trip.trip_meal:
+            db.session.delete(trip_meal)
+        db.session.commit()
+
 def connect_db(app):
     """Connect this database to provided Flask app."""
 

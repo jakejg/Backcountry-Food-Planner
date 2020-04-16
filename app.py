@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
-from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_length, validate_number_of_people
+from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_length, validate_number_of_people, populate_choices
 from api_requests import search_for_a_food, get_nutrition_data, get_data_from_api_results
 from unit_conversions import to_lbs
 from sqlalchemy.exc import IntegrityError
@@ -90,14 +90,16 @@ def select_meals(trip_id):
 
     form = SelectMealForm()
 
-    for key, value in fields.items():
-        form[key].choices = [(m.id, m.title) for m in [*Meal.query.filter(Meal.type_==value, Meal.public==True), *Meal.query.filter(Meal.type_==value, Meal.user_id==trip.user_id)]]
+    populate_choices(form, fields, trip)
     
     if form.validate_on_submit():
+        if trip.trip_meal:
+            TripMeal.delete_old_trip_meals(trip)
+
         for key, value in form.data.items():
             if key != 'csrf_token':
-                r = TripMeal(trip_id=trip.id, meal_id=form[key].data)
-                db.session.add(r)
+                trip_meal = TripMeal(trip_id=trip.id, meal_id=form[key].data)
+                db.session.add(trip_meal)
                 db.session.commit()
 
         return redirect(url_for('show_meal_plan', trip_id=trip.id))

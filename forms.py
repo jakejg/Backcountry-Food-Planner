@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, HiddenField
 from wtforms_components import TimeField, IntegerField, SelectField, DateTimeField
 from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired, ValidationError
+from models import Meal
 
 
 
@@ -55,7 +56,9 @@ def populate_select_meal_form(meal_data):
   
     return fields
 
-
+def populate_choices(form, fields, trip):
+    for key, value in fields.items():
+        form[key].choices = [(m.id, m.title) for m in [*Meal.query.filter(Meal.type_==value, Meal.public==True), *Meal.query.filter(Meal.type_==value, Meal.user_id==trip.user_id)]]
 
 class CreateMealForm(FlaskForm):
 
