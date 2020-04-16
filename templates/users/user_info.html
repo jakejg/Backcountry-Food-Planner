@@ -9,8 +9,11 @@
       <li><b>Username:</b> {{user.username}}</li>
   </ul>
 <hr>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
+      <div class="col-6 p-0">
+        <img class="img-fluid" src="{{url_for('static', filename='images/bike-ecuador.jpg')}}" alt="">
+      </div>
         <div class="col-6 d-flex justify-content-center">
           <div>
             <h3>Trips</h3>
@@ -34,7 +37,9 @@
              {% endif %}
           </div>
         </div>
-        <div class="col-6 d-flex justify-content-center">
+      </div>
+      <div class="row">
+        <div class="col-6 d-flex justify-content-center mt-2">
           <div>
             <h3>Meals</h3> 
             {% if user.meals %}
@@ -49,6 +54,9 @@
             <a href="{{url_for('show_create_meal_page')}}">Create a new meal</a>
             {% endif %}
           </div>
+        </div>
+        <div class="col-6 p-0">
+          <img class="img-fluid" src="{{url_for('static', filename='images/bars.jpg')}}" alt="">
         </div>
     </div>
 </div>
