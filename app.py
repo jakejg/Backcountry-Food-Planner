@@ -116,7 +116,7 @@ def show_meal_plan(trip_id):
     meal_numbers = trip.get_meal_numbers()
     meals = trip.trip_meal
     nutrition_data = [meal.meals.get_total_nutrition_data() for meal in meals]
-   
+    
     return render_template('meal_plan.html', trip=trip, meals=meals, meal_numbers=meal_numbers, nutrition_data=nutrition_data)
 
 @app.route('/packing-list/<int:trip_id>')

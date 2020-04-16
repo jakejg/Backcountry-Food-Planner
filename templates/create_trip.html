@@ -34,7 +34,7 @@
                 {% include 'form.html' %}
                 <div class="text-center">
                     <button class="btn btn-primary" type="submit">Select Meals</button>
-                    {% if session.get('guest') %}
+                    {% if session.get('guest', True) %}
                     <small class="d-block">Create an account/sign in to save your trips</small>
                     {% endif %}
                 </div>

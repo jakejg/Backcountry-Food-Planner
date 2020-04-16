@@ -24,7 +24,7 @@
               </li>
               {% else %}
               <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('user_info', username=g.user.username)}}">{{g.user.first_name}}</a>
+                <a class="nav-link" href="{{url_for('user_info', username=g.user.username)}}">{{g.user.username}}</a>
               </li>
               <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('logout')}}">Logout</a>

@@ -72,6 +72,7 @@
   {{ meal_type("Breakfast")}}
   {{ meal_type("Lunch")}}
   {{ meal_type("Dinner")}}
+  <a href="{{url_for('select_meals', trip_id=meals[0].trip_id)}}" class="btn btn-primary">Change Meals</a>
   <a href="{{url_for('show_packing_list', trip_id=meals[0].trip_id)}}" class="btn btn-success m-2">Get printable packing list</a>
 </div>
 {% endblock %}
