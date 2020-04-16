@@ -116,7 +116,7 @@ def show_meal_plan(trip_id):
 @app.route('/packing-list/<int:trip_id>')
 def show_packing_list(trip_id):
     """Show a printable packing list with ingredients and wieghts"""
-    
+
     trip = Trip.query.get_or_404(trip_id)
 
     if not authorize(trip.user_id):
@@ -155,7 +155,7 @@ def api():
 
     search_result = search_for_a_food(params.get('item'), params.get('brandOwner'))
 
-    if len(search_result.content) > 1000000:
+    if len(search_result.content) > 300000:
         error_response = jsonify(error="Response is too large to display")
         return (error_response, 500)
 
