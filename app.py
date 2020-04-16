@@ -54,7 +54,6 @@ def home():
 
             return render_template('create_trip.html', form=form)
 
-
         # check if user is logged in if not log them in as a guest user
 
         if 'user_id' not in session:
@@ -240,8 +239,6 @@ def user_info(username):
 def logout():
     """Log a user out"""
     session.clear()
-
-    User.log_in_as_guest()
 
     flash("You are now logged out")
     return redirect(url_for('home'))
