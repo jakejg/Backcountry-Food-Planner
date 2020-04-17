@@ -11,7 +11,7 @@ u = User(first_name="guest",
         username="guestuser",
         email="guest@email.com",
         password="3nD6KK",
-        guest=True
+        guest=True)
 
 db.session.add(u)
 db.session.commit()
