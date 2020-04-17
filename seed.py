@@ -6,7 +6,12 @@ from models import Meal, TripMeal, Trip, User, Ingredient
 db.drop_all()
 db.create_all()
 
-u = User.register("guestuser", "123" , "guest@email.com", "guest", "guest", True)
+u = User(first_name="guest",
+        last_name="guest",
+        username="guestuser",
+        email="guest@email.com",
+        password="3nD6KK",
+        guest=True
 
 db.session.add(u)
 db.session.commit()
