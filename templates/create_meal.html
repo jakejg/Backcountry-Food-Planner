@@ -4,9 +4,11 @@
 {% block content %}
 <div id="top" class="container-fluid">
     <div class="row align-items-center">
-        <div class="col-8 text-center  ">
+        <div class="col-0 col-sm-2">
+        </div>
+        <div class="col-6 ">
             <p class="i ">Create a meal</p>
-            <ul class="detail ">
+            <ul class="detail" style="list-style:inside">
                 <li>Search for ingredients with keywords and brand names</li>
                 <li>Select up to four ingredients.</li>
                 <li>The first two ingredients will make up the bulk of the meal.</li>
@@ -21,9 +23,9 @@
     <div class="row">
         <div class="col-12 col-sm-6">
             <form id="search">
-                <h3 class="text-center">Search for a food</h3>
+                <h3 class="text-center">Search for an Ingredient</h3>
                 <div class="form-group">
-                    <label for="food">Food name</label>
+                    <label for="food">Food Name</label>
                   <input type="text" class="form-control" id="food"  placeholder='Try rice or "fig bar"'>
                   <small id="help" class="form-text text-muted">Try including multiple words in quotes to get better results</small>
                 </div>
@@ -38,6 +40,7 @@
                 {% endif %}
               </form>
               <div class="container">
+                <small>Click on an ingredient to add it to your meal</small>
                 <ul id="search-list"></ul>
                 </ul>
             </div>
