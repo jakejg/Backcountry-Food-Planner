@@ -150,6 +150,7 @@ def show_create_meal_page():
                 meal.ingredients.append(ingr)
                 db.session.commit()
 
+        flash("Meal created successfuly! You can now select it, when choosing meals for your trip", "alert-success")
         return redirect(url_for('show_create_meal_page', form=form))
 
     return render_template('create_meal.html', form=form)
@@ -241,7 +242,7 @@ def logout():
     """Log a user out"""
     session.clear()
 
-    flash("You are now logged out")
+    flash("You are now logged out", "alert-success")
     return redirect(url_for('home'))
 
 def authorize(user_id):

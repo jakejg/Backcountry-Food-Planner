@@ -16,25 +16,25 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
               {% if session.get('guest', True) %}
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a class="nav-link" href="{{url_for('register')}}">Create Account</a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item">
                   <a class="nav-link" href="{{url_for('login')}}">Login</a>
               </li>
               {% else %}
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a class="nav-link" href="{{url_for('user_info', username=g.user.username)}}">{{g.user.username}}</a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
               </li>
               {% endif %}
             </ul>
         </div>
       </nav>
-      {% for msg in get_flashed_messages() %}
-        <div class="alert alert-danger" role="alert">
+      {% for category, msg in get_flashed_messages(with_categories=true) %}
+        <div class="alert {{category}}" role="alert">
         {{msg}}
             </div>
         {% endfor %}
