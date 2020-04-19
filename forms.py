@@ -4,15 +4,16 @@ from wtforms_components import TimeField, IntegerField, SelectField, DateTimeFie
 from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired, ValidationError
 from models import Meal
+from datetime import datetime, timedelta
 
-
+d3= timedelta(days=3)
 
 class TripForm(FlaskForm):
     """Form for creating a trip"""
 
-    start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M', validators=[DataRequired(message="Enter a date mm/dd/yyy and time")])
-    end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M', validators=[DataRequired(message="Enter a date mm/dd/yyy and time")])
-    number_of_people = IntegerField('Number of people', validators=[InputRequired()] )
+    start_date_time = DateTimeLocalField('Start Date and Time of Trip', format='%Y-%m-%dT%H:%M', default=datetime.today, validators=[DataRequired(message="Enter a date mm/dd/yyy and time")])
+    end_date_time = DateTimeLocalField('End Date and Time of Trip', format='%Y-%m-%dT%H:%M', default=datetime.today() + d3, validators=[DataRequired(message="Enter a date mm/dd/yyy and time")])
+    number_of_people = IntegerField('Number of people', validators=[InputRequired()])
     name = StringField('Give your trip a name', validators=[DataRequired()])
 
 def validate_dates(start, end):
