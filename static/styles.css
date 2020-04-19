@@ -16,7 +16,6 @@ nav {
 
 .nav-link:hover {
     color: white !important;
-    top: 3px;
 }
 
 .fa-mountain {
@@ -59,3 +58,14 @@ ul {
     max-height: 150px;
 }
 
+.breakfast {
+    background-color: rgb(134, 115, 79);
+}
+
+.lunch {
+    background-color: rgb(104, 53, 79);
+}
+
+.dinner {
+    background-color: rgb(78, 116, 126);
+}
