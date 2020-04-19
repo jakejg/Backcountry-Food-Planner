@@ -26,7 +26,7 @@ def validate_dates(start, end, form):
         form.end_date_time.errors = ["Trip must be at least one night"]
         return True
     
-    if start < datetime.today():
+    if start < datetime.today() - timedelta(hours=12):
         form.start_date_time.errors = ["Trip must start after the current date and time"]
         return True
 
