@@ -4,7 +4,7 @@ $mealList = $('#meal-list');
 
 SELECTED_FOODS = [];
 
-BASE_URL = `https://${location.host}/meal/api`
+BASE_URL = `http://${location.host}/meal/api`
 
 // clear send-ids form values
 for (let i=0; i<4; i++){
@@ -43,6 +43,8 @@ async function handlesubmit(evt){
 
 function displayResults(resp){
     $searchList.empty();
+    $('#directions').empty();
+    $('#directions').append('<div>Click on an ingredient to add it to your meal</div>');
     for (food of resp){
         let $item = $(`<li class="list-group-item" data-id=${food.fdcId}>${food.description}<br>
             <small class="text-muted" data-id=${food.fdcId}>${food.ingredients}</small><br>

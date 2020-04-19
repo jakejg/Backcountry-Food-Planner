@@ -16,9 +16,8 @@ nav {
 
 .nav-link:hover {
     color: white !important;
+    top: 3px;
 }
-
-
 
 .fa-mountain {
     color: rgb(245, 235, 181) !important;

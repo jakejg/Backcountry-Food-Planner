@@ -150,7 +150,7 @@ def show_create_meal_page():
                 meal.ingredients.append(ingr)
                 db.session.commit()
 
-        flash("Meal created successfuly! You can now select it, when choosing meals for your trip", "alert-success")
+        flash("Meal created successfuly! You can now select it, when choosing meals for your trip on the menu page.", "alert-success")
         return redirect(url_for('show_create_meal_page', form=form))
 
     return render_template('create_meal.html', form=form)
