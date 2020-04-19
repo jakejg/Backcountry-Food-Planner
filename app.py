@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
-from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_length, validate_number_of_people, populate_choices
+from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_number_of_people, populate_choices
 from api_requests import search_for_a_food, get_nutrition_data, get_data_from_api_results
 from unit_conversions import to_lbs
 from sqlalchemy.exc import IntegrityError
@@ -35,15 +35,7 @@ def home():
     form = TripForm()
 
     if form.validate_on_submit():
-        if validate_dates(form.start_date_time.data, form.end_date_time.data):
-
-            form.end_date_time.errors = ["End date/time is earlier than start date/time."]
-        
-            return render_template('create_trip.html', form=form)
-
-        if validate_length(form.start_date_time.data, form.end_date_time.data):
-
-            form.end_date_time.errors = ["Trip must be at least one night"]
+        if validate_dates(form.start_date_time.data, form.end_date_time.data, form):
         
             return render_template('create_trip.html', form=form)
 

@@ -16,19 +16,30 @@ class TripForm(FlaskForm):
     number_of_people = IntegerField('Number of people', validators=[InputRequired()])
     name = StringField('Give your trip a name', validators=[DataRequired()])
 
-def validate_dates(start, end):
+def validate_dates(start, end, form):
 
     if end < start:
+        form.end_date_time.errors = ["End date/time is earlier than start date/time."]
         return True
 
-def validate_length(start, end):
-
     if end.day == start.day:
+        form.end_date_time.errors = ["Trip must be at least one night"]
+        return True
+    
+    if start < datetime.today():
+        form.start_date_time.errors = ["Trip must start after the current date and time"]
+        return True
+
+    if (end.date() - start.date()) > timedelta(days=365):
+        form.end_date_time.errors = ["Trip can't be longer than 365 days"]
         return True
 
 def validate_number_of_people(num):
     if num < 1:
         return True
+
+    
+
     
 
 class SelectMealForm(FlaskForm):
