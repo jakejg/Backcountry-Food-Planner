@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, HiddenField
 from wtforms_components import TimeField, IntegerField, SelectField, DateTimeField
 from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import DataRequired, Email, Length, AnyOf, InputRequired, ValidationError
-from models import Meal
+from .models import Meal
 from datetime import datetime, timedelta
 
 d3= timedelta(days=3)

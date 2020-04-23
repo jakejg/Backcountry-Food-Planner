@@ -1,20 +1,12 @@
-import os
-from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
-from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
-from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_number_of_people, populate_choices
-from api_requests import search_for_a_food, get_nutrition_data, get_data_from_api_results
-from utils import to_lbs
+from app import app
+from flask import render_template, request, flash, redirect, session, g, url_for, jsonify
+from .models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
+from .forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_number_of_people, populate_choices
+from .api_requests import search_for_a_food, get_nutrition_data, get_data_from_api_results
+from .utils import to_lbs
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 from datetime import datetime
-
-app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgres:///food_planner'))
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 connect_db(app)
 

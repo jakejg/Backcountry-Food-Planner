@@ -1,4 +1,4 @@
-from api_key import fdc_key
+from instance.config import FDC_KEY as fdc_key
 from flask import jsonify
 import requests
 
