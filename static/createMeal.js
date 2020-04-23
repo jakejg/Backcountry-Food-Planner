@@ -4,7 +4,7 @@ $mealList = $('#meal-list');
 
 SELECTED_FOODS = [];
 
-BASE_URL = `https://${location.host}/meal/api`
+BASE_URL = `${location.origin}/meal/api`
 
 // clear send-ids form values
 for (let i=0; i<4; i++){
