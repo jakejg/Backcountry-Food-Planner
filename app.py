@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from models import db, connect_db, Trip, Meal, User, TripMeal, Ingredient
 from forms import TripForm, SelectMealForm, SelectField, CreateMealForm, CreateUserAccount, LoginUser, validate_dates, populate_select_meal_form, validate_number_of_people, populate_choices
 from api_requests import search_for_a_food, get_nutrition_data, get_data_from_api_results
-from unit_conversions import to_lbs
+from utils import to_lbs
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 from datetime import datetime

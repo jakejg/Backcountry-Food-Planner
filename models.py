@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from flask import session
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-from unit_conversions import to_lbs
-from random_word import get_random_word
+from utils import to_lbs, get_random_word
+
 
 
 bcrypt = Bcrypt()
