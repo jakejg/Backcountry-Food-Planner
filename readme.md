@@ -9,18 +9,18 @@ This was created with Javascript, Python, Flask and PostgreSQL. The nutrition da
 To run this code, follow these steps.
 You will need Python 3 and PostgreSQL installed on your machine.
 1. Download the code
-    git clone https://github.com/jakejg/Backcountry-Food-Planner.git 
+    -git clone https://github.com/jakejg/Backcountry-Food-Planner.git 
 2. Create a virtual environment and install the dependencies
-    python -m venv venv
-    source venv/scripts/activate (on a pc) source venv/bin/activate (on a mac)
-    pip install -r requirements.txt
+    -python -m venv venv
+    -source venv/scripts/activate (on a pc) source venv/bin/activate (on a mac)
+    -pip install -r requirements.txt
 3. Go to https://fdc.nal.usda.gov/api-key-signup.html and sign up to get an API key
 4. In the api_key.py file, set fdc_key = "YOUR API KEY"
 5. In the app.py file, set app.config['SECRET_KEY'] = "your favorite secret key"
 6. Create a database called food_planner
-    create_db food_planner
+    -create_db food_planner
 7. Run the seed.py file
-    python seed.py
+    -python seed.py
 
 
 
