@@ -1,9 +1,10 @@
 import os
+from app import app
 from unittest import TestCase
-from models import db, connect_db, User, Trip, Meal, Ingredient, TripMeal
+from app.models import db, connect_db, User, Trip, Meal, Ingredient, TripMeal
 from datetime import datetime
 os.environ['DATABASE_URL'] = "postgresql:///food_planner_test"
-from app import app, create_ingredient, get_nutrition_data
+from app.api_requests import get_nutrition_data
 
 db.drop_all()
 db.create_all()
@@ -18,13 +19,13 @@ b1 = Meal(title="Oatmeal",
         type_="breakfast"
         )
 
-oats = create_ingredient(get_nutrition_data(368739))
+oats = Ingredient.create_ingredient(get_nutrition_data(368739))
 b1.ingredients.append(oats)
 
-raisins = create_ingredient(get_nutrition_data(408107))
+raisins = Ingredient.create_ingredient(get_nutrition_data(408107))
 b1.ingredients.append(raisins)
 
-sugar = create_ingredient(get_nutrition_data(519364))
+sugar = Ingredient.create_ingredient(get_nutrition_data(519364))
 b1.ingredients.append(sugar)
 
 
@@ -33,10 +34,10 @@ l1 = Meal(title="Pita and Hummus",
         type_="lunch"
         )
 
-pita = create_ingredient(get_nutrition_data(384233))
+pita = Ingredient.create_ingredient(get_nutrition_data(384233))
 l1.ingredients.append(pita)
 
-hummus = create_ingredient(get_nutrition_data(475281))
+hummus = Ingredient.create_ingredient(get_nutrition_data(475281))
 l1.ingredients.append(hummus)
 
 
@@ -45,10 +46,10 @@ d1 = Meal(title="Rice and Beans",
         type_="dinner"
         )
 
-rice = create_ingredient(get_nutrition_data(447921))
+rice = Ingredient.create_ingredient(get_nutrition_data(447921))
 d1.ingredients.append(rice)
 
-beans = create_ingredient(get_nutrition_data(381573))
+beans = Ingredient.create_ingredient(get_nutrition_data(381573))
 d1.ingredients.append(beans)
 
 db.session.commit()
@@ -58,24 +59,22 @@ class TripMealTests(TestCase):
 
     def setUp(self):
         """Set up a User and a new Trip"""
-
-        self.user = User.register("tester1",
-                                "password",
-                                "test@t.com",
-                                "john",
-                                "smith")
+                
+        self.user = User(username="tester1",
+                        password="password",
+                        email="test@t.com",
+                        first_name="john",
+                        last_name="smith",
+                        guest=False)
         db.session.add(self.user)
         db.session.commit()
-        
         self.trip = Trip(start_date_time=datetime(2020, 4, 8, 10, 00), 
                         end_date_time=datetime(2020, 4, 10, 15, 00),
                         number_of_people=3,
                         name="TestTrip",
                         user_id= self.user.id)
-        
         db.session.add(self.trip)
         db.session.commit()
-
         tm1 = TripMeal(trip_id=self.trip.id, meal_id=1)
         tm2 = TripMeal(trip_id=self.trip.id, meal_id=1)
         tm3 = TripMeal(trip_id=self.trip.id, meal_id=2)
@@ -83,9 +82,9 @@ class TripMealTests(TestCase):
         tm5 = TripMeal(trip_id=self.trip.id, meal_id=2)
         tm6 = TripMeal(trip_id=self.trip.id, meal_id=3)
         tm7 = TripMeal(trip_id=self.trip.id, meal_id=3)
-
         db.session.add_all([tm1, tm2, tm3, tm4, tm5, tm6, tm7])
         db.session.commit()
+
 
     def tearDown(self):
         TripMeal.query.delete()
@@ -106,12 +105,12 @@ class TripMealTests(TestCase):
         nums = self.trip.get_meal_numbers()
 
         self.assertEqual(nums['total_meals'], 7)
-        self.assertEqual(nums['breakfasts'], 2)
-        self.assertEqual(nums['lunches'], 3)
-        self.assertEqual(nums['dinners'], 2)
+        self.assertEqual(nums['Breakfast'], 2)
+        self.assertEqual(nums['Lunch'], 3)
+        self.assertEqual(nums['Dinner'], 2)
 
         short_trip = Trip(start_date_time=datetime(2020, 4, 10, 10, 00), 
-                        end_date_time=datetime(2020, 4, 10, 10, 1),
+                        end_date_time=datetime(2020, 4, 11, 9, 00),
                         number_of_people=3,
                         name="short",
                         user_id= self.user.id)
@@ -121,7 +120,7 @@ class TripMealTests(TestCase):
 
         nums = short_trip.get_meal_numbers()
 
-        self.assertEqual(nums['total_meals'], 0)
+        self.assertEqual(nums['total_meals'], 3)
 
     def test_get_total_ingredient_weights(self):
         """Check if ingredients weghts are totaled correctly"""
