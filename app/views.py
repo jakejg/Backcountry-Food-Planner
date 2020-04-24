@@ -25,8 +25,9 @@ def home():
     """Show form for creating a trip"""
 
     form = TripForm()
-
+    
     if form.validate_on_submit():
+        
         if validate_dates(form.start_date_time.data, form.end_date_time.data, form):
         
             return render_template('create_trip.html', form=form)
@@ -38,17 +39,18 @@ def home():
             return render_template('create_trip.html', form=form)
 
         # check if user is logged in if not log them in as a guest user
-
+        
         if 'user_id' not in session:
             User.log_in_as_guest()
 
-  
+        
         trip = Trip(start_date_time=form.start_date_time.data,
                     end_date_time=form.end_date_time.data,
                     number_of_people=form.number_of_people.data,
                     name=form.name.data,
                     user_id=session.get('user_id')
                     )
+        
         db.session.add(trip)
         db.session.commit()
 
@@ -107,12 +109,13 @@ def show_meal_plan(trip_id):
 @app.route('/packing-list/<int:trip_id>')
 def show_packing_list(trip_id):
     """Show a printable packing list with ingredients and wieghts"""
-
+    
     trip = Trip.query.get_or_404(trip_id)
 
+    
     if not authorize(trip.user_id):
         raise Unauthorized()
-
+    
     weights = trip.get_total_ingredient_weights()
     weights = {key: to_lbs(val) for key, val in weights.items()}
 
@@ -122,7 +125,7 @@ def show_packing_list(trip_id):
 def show_create_meal_page():
     """Show create a meal form and handle data"""
     form = CreateMealForm()
-  
+    
     if form.validate_on_submit():  
         
         meal = Meal(title=form.title.data, type_=form.type_.data, user_id=session.get('user_id'))

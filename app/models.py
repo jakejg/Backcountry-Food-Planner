@@ -5,8 +5,6 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from .utils import to_lbs, get_random_word
 
-
-
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
@@ -39,6 +37,7 @@ class User(db.Model):
         hashed = bcrypt.generate_password_hash(password)
         hashed_utf8 = hashed.decode("utf8")
 
+       
         if 'user_id' in session:
             user = User.query.get(session.get('user_id'))
 

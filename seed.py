@@ -1,6 +1,6 @@
-from app import db, get_nutrition_data
 from datetime import datetime, timedelta
-from models import Meal, TripMeal, Trip, User, Ingredient
+from app.models import db, Meal, TripMeal, Trip, User, Ingredient
+from app.api_requests import get_nutrition_data
 
 
 db.drop_all()
@@ -16,14 +16,6 @@ u = User(first_name="guest",
 db.session.add(u)
 db.session.commit()
 
-t = Trip(start_date_time=datetime(2020, 4, 8, 10, 00), 
-        end_date_time=datetime(2020, 4, 11, 15, 00),
-        number_of_people=3,
-        user_id=u.id)
-
-db.session.add(t)
-db.session.commit()
-
 
 
 # breakfast
@@ -32,6 +24,9 @@ b1 = Meal(title="Oatmeal",
         user_id=u.id,
         public=True
         )
+
+db.session.add(b1)
+db.session.commit()
 
 oats = Ingredient.create_ingredient(get_nutrition_data(368739))
 b1.ingredients.append(oats)
@@ -48,6 +43,10 @@ b2 = Meal(title="Granola",
         user_id=u.id,
         public=True
        )
+
+db.session.add(b2)
+db.session.commit()
+
 granola = Ingredient.create_ingredient(get_nutrition_data(473897))
 b2.ingredients.append(granola)
 
@@ -61,6 +60,9 @@ l1 = Meal(title="Pita and Hummus",
         public=True
         )
 
+db.session.add(l1)
+db.session.commit()
+
 pita = Ingredient.create_ingredient(get_nutrition_data(384233))
 l1.ingredients.append(pita)
 
@@ -73,6 +75,10 @@ l2 = Meal(title="Peanut Butter, Raisins, and Honey",
         user_id=u.id,
         public=True
         )
+
+db.session.add(l2)
+db.session.commit()
+
 pita = Ingredient.create_ingredient(get_nutrition_data(384233))
 l2.ingredients.append(pita)
 
@@ -93,6 +99,9 @@ d1 = Meal(title="Rice and Beans",
         public=True
         )
 
+db.session.add(d1)
+db.session.commit()
+
 rice = Ingredient.create_ingredient(get_nutrition_data(447921))
 d1.ingredients.append(rice)
 
@@ -105,6 +114,9 @@ d2 = Meal(title="Pasta",
         user_id=u.id,
         public=True
         )
+
+db.session.add(d2)
+db.session.commit()
 
 pasta = Ingredient.create_ingredient(get_nutrition_data(370815))
 d2.ingredients.append(pasta)
