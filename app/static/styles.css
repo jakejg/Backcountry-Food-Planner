@@ -1,6 +1,6 @@
 body {
     background-color: rgb(243, 243, 243);
-}
+}    
 td {
     border: solid black 1px;
     padding: 8px
@@ -27,9 +27,27 @@ nav {
 }
 
 .i {
-    font-size: 3em;
+    font-size: 3vw;
     font-weight: 50;
 }
+
+
+.img-ocean {
+    position: absolute;
+    top:0%;
+    left:50%;
+    color: white;
+    font-size: 4vw;
+}
+
+.img-mtn {
+    position: absolute;
+    top:5%;
+    left:3%;
+    color: rgb(0, 0, 0);
+    font-size: 4vw;
+}
+
 
 ul {
     list-style: none;
