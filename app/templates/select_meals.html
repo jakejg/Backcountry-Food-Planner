@@ -2,37 +2,11 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="row align-items-center">
-        <div class="col-6 ">
-            <p class="i text-center">Create your menu</p>
-            <p class="details text-center">You will need {{meal_data["total_meals"]}}
-                {% if meal_data["total_meals"] != 1 %} meals {% else %} meal {% endif %}</p>
-            <div class="details container">
-                <div class="row">
-                    <div class="col-2 col-lg-4 ">
-                    </div>
-                    <ul class="col-8 col-lg-4">
-                        <li>{{meal_data["Breakfast"]}} {% if meal_data["Breakfast"] != 1 %} Breakfasts {% else %} Breakfast {% endif %}</li>
-                        <li>{{meal_data["Lunch"]}} {% if meal_data["Lunch"] != 1 %} Lunches {% else %} Lunch {% endif %}</li>
-                        <li>{{meal_data["Dinner"]}} {% if meal_data["Dinner"] != 1 %} Dinners {% else %} Dinner {% endif %}</li>
-                    </ul>
-                    <div class="col-2 col-md-4">
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-12 col-sm-5 meal-form ml-5 mt-4">
+            <div class="text-center">
+                <p><b>Select your meals or  </b><a href="{{url_for('show_create_meal_page')}}" class="btn btn-success">Create a New Meal</a></p>
             </div>
-        </div>
-        <div class="col-6 p-0">
-            <img class="img-fluid" src="{{url_for('static', filename='images/ocean-camp.jpg')}}" alt="">
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-12 col-sm-6 text-center">
-            <p><b>Select your meals or </b><a href="{{url_for('show_create_meal_page')}}" class="btn btn-success">Create a New Meal</a></p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-sm-6">
             {% if meal_data['total_meals'] > 0 %}
             <form method="POST">
             {{ form.hidden_tag() }} 
@@ -47,14 +21,33 @@
                   <small>{{ error }}</small>
                 {% endfor %}
                 </div>
-      
+        
             {% endfor %}
                 <button class="btn btn-primary" type="submit">Select Meals</button>
             {% endif %}
             </form>
         </div>
-        <div class="col-4">
+        <div class="col-6">
+            <div class="text-white">
+                <p class="i text-center">Create your menu</p>
+                <p class="details text-center">You will need {{meal_data["total_meals"]}}
+                {% if meal_data["total_meals"] != 1 %} meals {% else %} meal {% endif %}</p>
+                <div class="row">
+                    <div class="col-2 col-lg-4 ">
+                    </div>
+                    <ul class="col-8 col-lg-4">
+                        <li>{{meal_data["Breakfast"]}} {% if meal_data["Breakfast"] != 1 %} Breakfasts {% else %} Breakfast {% endif %}</li>
+                        <li>{{meal_data["Lunch"]}} {% if meal_data["Lunch"] != 1 %} Lunches {% else %} Lunch {% endif %}</li>
+                        <li>{{meal_data["Dinner"]}} {% if meal_data["Dinner"] != 1 %} Dinners {% else %} Dinner {% endif %}</li>
+                    </ul>
+                    <div class="col-2 col-md-4">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/background.js"></script>
 {% endblock %}

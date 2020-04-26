@@ -47,7 +47,7 @@ function displayResults(resp){
     $('#directions').append('<div>Click on an ingredient to add it to your meal</div>');
     for (food of resp){
         let $item = $(`<li class="list-group-item" data-id=${food.fdcId}>${food.description}<br>
-            <small class="text-muted" data-id=${food.fdcId}>${food.ingredients}</small><br>
+            <small class="text-dark" data-id=${food.fdcId}>${food.ingredients}</small><br>
             ${food.brandOwner}</li>
             `)
         $searchList.append($item);
@@ -65,7 +65,7 @@ function selectFood(evt){
         }
 
         //add color and spacing
-        $item.addClass('my-1 rounded').css('background-color', 'rgb(245, 235, 181)');
+        $item.addClass('my-1 rounded').css('background-color', 'rgb(300, 300, 300, .7)');
         //add to my ingredients
         $item.append('<i class="fas fa-trash m-1"></i>');
        

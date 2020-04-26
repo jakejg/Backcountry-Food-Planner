@@ -121,7 +121,7 @@ def show_packing_list(trip_id):
 
     return render_template('packing_list.html', weights=weights, trip=trip)
 
-@app.route('/meal', methods=["GET", "POST"])
+@app.route('/meals', methods=["GET", "POST"])
 def show_create_meal_page():
     """Show create a meal form and handle data"""
     form = CreateMealForm()

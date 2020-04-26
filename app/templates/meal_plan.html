@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 
 {% macro meal_type(type) %}
-<h4 class="text-center m-3">
+<h4 class="text-center text-white m-3">
   {{meal_numbers[type]}}
   {% if meal_numbers[type] != 1 %}
     {% if type == "Lunch"%}
@@ -17,16 +17,16 @@
 {% for i in range(meals|length) %}
     {% if meals[i].meals.type_ == type %}
     <div class="accordion" id="accordion">
-        <div class="card">
+        <div class="card m-2 text-center">
           {% if type == "Breakfast" %}
           <div class="card-header breakfast" id="headingOne">
           {% elif type == "Lunch" %}
-          <div class="card-header lunch" id="headingOne">
+          <div class="card-header lunch t-shadow" id="headingOne">
           {% else %}
-          <div class="card-header dinner" id="headingOne">
+          <div class="card-header dinner t-shadow" id="headingOne">
           {% endif %}
             <h2 class="mb-0">
-              <button class="btn text-light" type="button" data-toggle="collapse" data-target="#a{{meals[i].id}}" aria-expanded="true" aria-controls="collapseOne">
+              <button class="btn text-white" type="button" data-toggle="collapse" data-target="#a{{meals[i].id}}" aria-expanded="true" aria-controls="collapseOne">
                 {{meals[i].meals.title}}
               </button>
             </h2>
@@ -71,15 +71,24 @@
 {% endfor %}
 {% endmacro %}
 
-{% block content %}
-<h1 class="text-center">{{trip.name}}</h1>
-<div class=" detail text-center">You have {{meal_numbers["total_meals"]}}{% if meal_numbers["total_meals"] != 1 %} meals {% else %} meal {% endif %}</div>
-<div class="detail text-center">Click on a meal to see it's nutrition information</div>
+{% block content %} 
 <div class="container">
-  {{ meal_type("Breakfast")}}
-  {{ meal_type("Lunch")}}
-  {{ meal_type("Dinner")}}
-  <a href="{{url_for('select_meals', trip_id=meals[0].trip_id)}}" class="btn btn-primary mt-2 mr-2">Change Meals</a>
-  <a href="{{url_for('show_packing_list', trip_id=meals[0].trip_id)}}" class="btn btn-success mt-2">Get printable packing list</a>
+  <div class="row"> 
+    <div class="col-12 col-sm-4">
+      {{ meal_type("Breakfast")}}
+      {{ meal_type("Lunch")}}
+      {{ meal_type("Dinner")}}
+      <a href="{{url_for('select_meals', trip_id=meals[0].trip_id)}}" class="btn btn-primary mt-2 mr-2">Change Meals</a>
+      <a href="{{url_for('show_packing_list', trip_id=meals[0].trip_id)}}" class="btn btn-success mt-2">Get printable packing list</a>
+    </div>
+    <div class="col-8 text-white">
+      <h1 class="text-center">{{trip.name}}</h1>
+      <div class=" detail text-center">You have {{meal_numbers["total_meals"]}}{% if meal_numbers["total_meals"] != 1 %} meals {% else %} meal {% endif %}</div>
+      <div class="detail text-center">Click on a meal to see it's nutrition information</div>
+    </div> 
+  </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/background.js"></script>
 {% endblock %}
