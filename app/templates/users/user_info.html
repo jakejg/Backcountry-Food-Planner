@@ -2,19 +2,17 @@
 
 {% block content %}
 <div class="container-fluid p-0 text-center">
-  <img id="desert-pan" class="img-fluid p-0" src="{{url_for('static', filename='images/desert-pans2.jpg')}}" alt="">
+  <div class="text-center text-white">
+    <h1>{{user.first_name}} {{user.last_name}}</h1>
+    <ul>
+        <li><b>Username:</b> {{user.username}}</li>
+    </ul>
+  </div>
 </div>
-  <h1 class="text-center">{{user.first_name}} {{user.last_name}}</h1>
-  <ul class="text-center">
-      <li><b>Username:</b> {{user.username}}</li>
-  </ul>
 <div class="container-fluid">
     <div class="row mt-2">
-      <div class="col-6 p-0">
-        <img class="img-fluid" src="{{url_for('static', filename='images/bike-ecuador.jpg')}}" alt="">
-      </div>
         <div class="col-6 d-flex justify-content-center">
-          <div>
+          <div class="narrow info">
             <h3>Trips</h3>
             {% if user.trips %}
              <ul>
@@ -23,7 +21,7 @@
                  {% if trip.meals %}
                    <a href="{{url_for('show_meal_plan', trip_id=trip.id)}}">
                  {% else %}
-                  <a href="{{url_for('select_meals',  trip_id=trip.id)}}">
+                  <a  href="{{url_for('select_meals',  trip_id=trip.id)}}">
                  {% endif %}
                    {{trip.name}}</a>
                    </li>
@@ -36,10 +34,8 @@
              {% endif %}
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-6 d-flex justify-content-center mt-2">
-          <div>
+        <div class="col-6 d-flex justify-content-center">
+          <div class="narrow info text-white">
             <h3>Meals</h3> 
             {% if user.meals %}
             <ul>
@@ -54,9 +50,10 @@
             {% endif %}
           </div>
         </div>
-        <div class="col-6 p-0">
-          <img class="img-fluid" src="{{url_for('static', filename='images/bars.jpg')}}" alt="">
-        </div>
+      </div>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/background.js"></script>
 {% endblock %}

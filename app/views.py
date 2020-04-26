@@ -121,7 +121,7 @@ def show_packing_list(trip_id):
 
     return render_template('packing_list.html', weights=weights, trip=trip)
 
-@app.route('/meal', methods=["GET", "POST"])
+@app.route('/meals', methods=["GET", "POST"])
 def show_create_meal_page():
     """Show create a meal form and handle data"""
     form = CreateMealForm()
@@ -231,6 +231,11 @@ def logout():
 
     flash("You are now logged out", "alert-success")
     return redirect(url_for('home'))
+
+@app.route('/about')
+def about():
+    """Show information about the website"""
+    return render_template('about.html')
 
 def authorize(user_id):
     """ Check if a user has permission to access a page"""

@@ -1,21 +1,30 @@
 body {
-    background-color: rgb(243, 243, 243);
+    background-color: rgb(243, 243, 243);;
+    background-size: cover;
+    max-height: 1000px;
+    
 }
+
 td {
     border: solid black 1px;
     padding: 8px
 }
 
-nav {
-    background-color: rgb(25, 122, 90);
-}
+/* nav {
+    background-color: rgb(25, 122, 90); 
+    background-image: url("/static/images/patagonia.jpg");
+    background-size: cover;
+    height: 30%;
+    overflow: hidden;
+} */
+ 
 
 .nav-link {
-    color: rgb(245, 235, 181) !important;
+    color: white !important;
 }
 
 .nav-link:hover {
-    color: white !important;
+    color: rgba(0, 0, 0, 0.3) !important;
 }
 
 .fa-mountain {
@@ -27,9 +36,105 @@ nav {
 }
 
 .i {
-    font-size: 3em;
+    font-size: 3vw;
     font-weight: 50;
 }
+
+
+.img-ocean {
+    position: absolute;
+    top:0%;
+    left:50%;
+    color: white;
+    font-size: 4vw;
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+.img-mtn {
+    position: absolute;
+    top:5%;
+    left:3%;
+    color: rgb(0, 0, 0);
+    font-size: 4vw;
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+.form-box {
+    height: 38vw;
+    padding: 30px 30px 30px 30px;
+    margin: 50px 20px 0px 0px;
+
+}
+
+.search-box {
+    min-height: 38vw;
+    padding: 30px 30px 30px 30px;
+    margin: 50px 20px 0px 0px;
+    height: 100%;
+}
+
+.narrow {
+    padding: 30px 30px 30px 30px;
+    margin: 50px 20px 0px 0px;
+}
+.m {
+   max-height: 50vw; 
+}
+
+.b{
+    font-weight: bold;
+}
+.t-shadow {
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+.b-shadow {
+    box-shadow: 0 0 1em .8em #ccc
+}
+
+.meal-details {
+    position: absolute;
+    top: 5%;
+    bottom: 5%;
+    left: 30%;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    width: 40%;
+}
+
+.info {
+    color: white;
+    background-color: rgb(0, 0, 0, .3);
+    border-radius:10px
+}
+
+.mealplan-details {
+    position: absolute;
+    top: 10%;
+    bottom: 5%;
+    left: 5%;
+    color: white;
+    background-color: rgb(0, 0, 0, .3);
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 2vmax;
+    max-height: 60%;
+}
+
+.meal-form {
+    color: white;
+    background-color: rgb(0, 0, 0, .3);
+    padding-top: 20px;
+    border-radius: 10px;
+}
+
+.back {
+    background-image: url("/static/images/harding.jpg");
+    background-repeat: repeat;
+}
+
 
 ul {
     list-style: none;

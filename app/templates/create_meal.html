@@ -3,26 +3,39 @@
 
 {% block content %}
 <div id="top" class="container-fluid">
-    <div class="row align-items-center">
-        <div class="col-0 col-sm-2">
+    <div class="row">
+        <div class="col-0 col-4">
         </div>
-        <div class="col-6 ">
-            <p class="i ">Create a Meal</p>
-            <ul class="detail" style="list-style:inside">
-                <li>Search for ingredients with keywords and brand names</li>
-                <li>Select up to four ingredients.</li>
-                <li>The first two ingredients will make up the bulk of the meal.</li>
-                <li>The last two ingredients are supplemental.</li>
-            </ul>
+        <div class="col-12 col-sm-5">
+            <div class="text-white">
+                <p class="i">Create a Meal</p>
+                <ul class="detail" style="list-style:inside">
+                    <li>Search for ingredients with keywords and brand names</li>
+                    <li>Select up to four ingredients.</li>
+                    <li>The first two ingredients will make up the bulk of the meal.</li>
+                    <li>The last two ingredients are supplemental.</li>
+                </ul>
+            </div>
         </div>
-        <div class="col-4 p-0">
-            <img class="img-fluid " src="{{url_for('static', filename='images/cooking.jpg')}}" alt="">
+        <div class="col-0 col-4">
         </div>
     </div>
-    <hr>
     <div class="row">
+        <div class="col-12 col-sm-6 m">
+            <div class="search-box info">
+                <h3 class="text-center">My Meal</h3>
+                <form id="send-ids" method="POST">
+                {% include 'form.html' %}
+
+                <h4 class="text-center">Ingredients</h4>
+                <ul id="meal-list" class="my-3">
+                </ul>
+                <button class="btn btn-success ">Create Meal</button>
+                </form> 
+            </div>
+        </div>
         <div class="col-12 col-sm-6">
-            <form id="search">
+            <form id="search" class="search-box info">
                 <h3 class="text-center">Search for an Ingredient</h3>
                 <div class="form-group">
                     <label for="food">Food Name</label>
@@ -38,25 +51,16 @@
                 {% if 'trip_id' in session %}
                 <span><a href="{{url_for('select_meals', trip_id=session.get('trip_id'))}}" class="btn btn-outline-secondary">Go Back to Menu</a></span>
                 {% endif %}
+                <div id="directions" class="container text-center mb-2">
+                </div>
+                <ul id="search-list">
+                </ul>
             </form>
-            <div id="directions" class="container text-center mb-2">
-            </div>
-            <ul id="search-list">
-            </ul>
-        </div>
-
-        <div class="col-12 col-sm-6">
-            <h3 class="text-center">My Meal</h3>
-            <form id="send-ids" method="POST">
-            {% include 'form.html' %}
-                
-            <h4 class="text-center">Ingredients</h4>
-            <ul id="meal-list" class="my-3">
-            </ul>
-            <button class="btn btn-success ">Create Meal</button>
-            </form> 
         </div>
     </div>
+        
+
+    
 </div>
 {% endblock %}
 
@@ -64,4 +68,5 @@
 <script src="https://unpkg.com/jquery"></script>
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
 <script src="/static/createMeal.js"></script>
+<script src="/static/background.js"></script>
 {% endblock %}
