@@ -24,3 +24,6 @@ if (location.href.includes("login")) {
 if (location.href.includes("users")) {
     document.body.style.backgroundImage = "url('/static/images/rocky.jpg')"
 }
+if (location.href.includes("about")) {
+    document.body.style.backgroundImage = "url('/static/images/packraft.jpg')"
+}

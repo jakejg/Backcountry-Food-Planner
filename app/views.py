@@ -232,6 +232,11 @@ def logout():
     flash("You are now logged out", "alert-success")
     return redirect(url_for('home'))
 
+@app.route('/about')
+def about():
+    """Show information about the website"""
+    return render_template('about.html')
+
 def authorize(user_id):
     """ Check if a user has permission to access a page"""
 
