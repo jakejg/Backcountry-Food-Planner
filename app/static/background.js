@@ -2,11 +2,12 @@
 if (location.href === `${location.protocol}//${location.host}/`) {
     document.body.style.backgroundImage = "url('/static/images/baker-sunset.jpg')"
 }
+
 if (location.href.includes("select-meals")) {
     document.body.style.backgroundImage = "url('/static/images/labyrinth.jpg')"
 }
 
-if (location.href.includes("meal-plan")) {
+if (location.href.includes("/meal-plan/")) {
     document.body.style.backgroundImage = "url('/static/images/harding.jpg')"
 }
 
