@@ -46,7 +46,7 @@ function displayResults(resp){
     $('#directions').empty();
     $('#directions').append('<div>Click on an ingredient to add it to your meal</div>');
     for (food of resp){
-        let $item = $(`<li class="list-group-item" data-id=${food.fdcId}>${food.description}<br>
+        let $item = $(`<li class="list-group-item text-dark b" data-id=${food.fdcId}>${food.description}<br>
             <small class="text-dark" data-id=${food.fdcId}>${food.ingredients}</small><br>
             ${food.brandOwner}</li>
             `)

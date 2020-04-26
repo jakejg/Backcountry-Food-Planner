@@ -1,12 +1,10 @@
 body {
-    background-image: url("/static/images/baker-sunset.jpg");
+    background-color: rgb(243, 243, 243);;
     background-size: cover;
     max-height: 1000px;
     
 }
-/* body {
-    background-color: rgb(243, 243, 243);
-}     */
+
 td {
     border: solid black 1px;
     padding: 8px
@@ -73,6 +71,11 @@ td {
     padding: 30px 30px 30px 30px;
     margin: 50px 20px 0px 0px;
     height: 100%;
+}
+
+.narrow {
+    padding: 30px 30px 30px 30px;
+    margin: 50px 20px 0px 0px;
 }
 .m {
    max-height: 50vw; 

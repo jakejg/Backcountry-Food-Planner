@@ -51,11 +51,11 @@
                 {% if 'trip_id' in session %}
                 <span><a href="{{url_for('select_meals', trip_id=session.get('trip_id'))}}" class="btn btn-outline-secondary">Go Back to Menu</a></span>
                 {% endif %}
+                <div id="directions" class="container text-center mb-2">
+                </div>
+                <ul id="search-list">
+                </ul>
             </form>
-            <div id="directions" class="container text-center mb-2">
-            </div>
-            <ul id="search-list">
-            </ul>
         </div>
     </div>
         

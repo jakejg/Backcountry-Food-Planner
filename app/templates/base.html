@@ -34,7 +34,7 @@
         </div>
       </nav>
       {% for category, msg in get_flashed_messages(with_categories=true) %}
-        <div class="alert {{category}}" role="alert">
+        <div class="alert {{category}} text-center" role="alert">
         {{msg}}
             </div>
         {% endfor %}

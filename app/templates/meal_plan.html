@@ -78,13 +78,13 @@
       {{ meal_type("Breakfast")}}
       {{ meal_type("Lunch")}}
       {{ meal_type("Dinner")}}
+    </div>
+    <div class="col-8 text-white text-center mt-5">
+      <h1>{{trip.name}}</h1>
+      <div class=" detail ">You have {{meal_numbers["total_meals"]}}{% if meal_numbers["total_meals"] != 1 %} meals {% else %} meal {% endif %}</div>
+      <div class="detail">Click on a meal to see it's nutrition information</div>
       <a href="{{url_for('select_meals', trip_id=meals[0].trip_id)}}" class="btn btn-primary mt-2 mr-2">Change Meals</a>
       <a href="{{url_for('show_packing_list', trip_id=meals[0].trip_id)}}" class="btn btn-success mt-2">Get printable packing list</a>
-    </div>
-    <div class="col-8 text-white">
-      <h1 class="text-center">{{trip.name}}</h1>
-      <div class=" detail text-center">You have {{meal_numbers["total_meals"]}}{% if meal_numbers["total_meals"] != 1 %} meals {% else %} meal {% endif %}</div>
-      <div class="detail text-center">Click on a meal to see it's nutrition information</div>
     </div> 
   </div>
 </div>
