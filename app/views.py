@@ -178,7 +178,7 @@ def register():
             db.session.commit()
 
         except IntegrityError:
-            flash("Username already taken", 'danger')
+            form.username.errors = ["Username already taken"]
             return render_template('/users/register.html', form=form)
 
         session.clear()
