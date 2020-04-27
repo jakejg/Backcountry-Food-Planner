@@ -73,13 +73,13 @@
 
 {% block content %} 
 <div class="container">
-  <div class="row"> 
+  <div class="row flex-column-reverse flex-sm-row"> 
     <div class="col-12 col-sm-4">
       {{ meal_type("Breakfast")}}
       {{ meal_type("Lunch")}}
       {{ meal_type("Dinner")}}
     </div>
-    <div class="col-8 text-white text-center mt-5">
+    <div class=" col-12 col-sm-8 text-white text-center mt-5">
       <h1>{{trip.name}}</h1>
       <div class=" detail ">You have {{meal_numbers["total_meals"]}}{% if meal_numbers["total_meals"] != 1 %} meals {% else %} meal {% endif %}</div>
       <div class="detail">Click on a meal to see it's nutrition information</div>
