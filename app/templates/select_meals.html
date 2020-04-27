@@ -2,8 +2,10 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-sm-5 meal-form ml-5 mt-4">
+    <div class="row flex-column-reverse flex-sm-row">
+        <div class="col-0 col-1">
+        </div>
+        <div class="col-12 col-sm-5 meal-form mt-4">
             <div class="text-center">
                 <p><b>Select your meals or  </b><a href="{{url_for('show_create_meal_page')}}" class="btn btn-success">Create a New Meal</a></p>
             </div>
@@ -27,9 +29,9 @@
             {% endif %}
             </form>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-sm-6 mt-4">
             <div class="text-white">
-                <p class="i text-center">Create your menu</p>
+                <h3 class="i text-center">Create your menu</h3>
                 <p class="details text-center">You will need {{meal_data["total_meals"]}}
                 {% if meal_data["total_meals"] != 1 %} meals {% else %} meal {% endif %}</p>
                 <div class="row">

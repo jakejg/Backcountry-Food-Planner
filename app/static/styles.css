@@ -28,7 +28,7 @@ td {
 }
 
 .i {
-    font-size: 3vw;
+    font-size: 30px;
     font-weight: 50;
 }
 
@@ -65,12 +65,14 @@ td {
     height: 100%;
 }
 
+
 .narrow {
     padding: 30px 30px 30px 30px;
     margin: 50px 20px 0px 0px;
 }
-.m {
-   max-height: 50vw; 
+.meal-box {
+    padding: 30px 30px 30px 30px;
+    margin: 50px 20px 0px 0px; 
 }
 
 .b{
