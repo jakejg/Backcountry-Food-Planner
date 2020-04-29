@@ -15,8 +15,8 @@ You will need Python 3 and PostgreSQL installed on your machine.
     source venv/scripts/activate (on a pc) source venv/bin/activate (on a mac)
     pip install -r requirements.txt
 3. Go to https://fdc.nal.usda.gov/api-key-signup.html and sign up to get an API key
-4. In the api_key.py file, set fdc_key = "YOUR API KEY"
-5. In the app.py file, set app.config['SECRET_KEY'] = "your favorite secret key"
+4. Under the instance folder, open the config.py file, and set FDC_KEY = "YOUR API KEY"
+5. And, set SECRET_KEY = "your favorite secret key"
 6. Create a database called food_planner <br>
     create_db food_planner
 7. Run the seed.py file <br>
