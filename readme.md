@@ -8,7 +8,7 @@ Enter the start/end dates and number of people for your trip on the homepage. Se
 ## Additional Features to be Added 
 Some features I'd like to add: a form to create a custom ingredient. Functionality to change the weight of meals individually and for an entire trip. Price information for each ingredient and meal.
 
-## Technology used
+## Technologies Used
 This was created with Javascript, Python, Flask and PostgreSQL. The nutrition data comes from the USDA Food Central API
 
 ## Instructions for Running Project Code
