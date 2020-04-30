@@ -1,6 +1,15 @@
 
 {% extends 'base.html' %}
 
+{% block styles %}
+<style>
+    body {
+        background-image: url('/static/images/harding.jpg');
+        background-repeat: no-repeat;
+    }
+</style>
+{% endblock %}
+
 {% macro meal_type(type) %}
 <h4 class="text-center text-white m-3">
   {{meal_numbers[type]}}
@@ -89,6 +98,4 @@
   </div>
 </div>
 {% endblock %}
-{% block scripts %}
-<script src="/static/background.js"></script>
-{% endblock %}
+

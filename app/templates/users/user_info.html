@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block styles %}
+<style>
+    body {
+        background-image: url('/static/images/paramos.jpg');
+        background-repeat: no-repeat;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid p-0 text-center">
   <div class="text-center text-white">
@@ -53,7 +62,4 @@
       </div>
     </div>
 </div>
-{% endblock %}
-{% block scripts %}
-<script src="/static/background.js"></script>
 {% endblock %}

@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block styles %}
+<style>
+    body {
+        background-image: url('/static/images/neocola.jpg');
+        background-repeat: no-repeat;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row ">
@@ -16,7 +25,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
-{% block scripts %}
-<script src="/static/background.js"></script>
 {% endblock %}
