@@ -3,6 +3,7 @@ body {
     background-size: cover;
     max-height: 1000px;
     
+    
 }
 
 td {
@@ -25,11 +26,13 @@ td {
 
 #title {
     color: rgb(46, 44, 32);
+    margin-bottom: 0px;
 }
 
 .i {
+    font-family: 'Lusitana', serif;
     font-size: 30px;
-    font-weight: 50;
+    font-weight: bold;
 }
 
 
@@ -137,6 +140,7 @@ ul {
 }
 
 .details {
+    font-family: 'Lusitana', serif;
     font-size: 1.5em;
     font-weight: 50;
 }
@@ -168,3 +172,8 @@ ul {
 .dinner {
     background-color: rgb(78, 116, 126);
 }
+
+.line-off:hover {
+    text-decoration:none;
+}
+
