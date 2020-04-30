@@ -43,6 +43,7 @@ async function handlesubmit(evt){
 
 function displayResults(resp){
     $searchList.empty();
+    $searchList.css('height', '400px');
     $('#directions').empty();
     $('#directions').append('<div>Click on an ingredient to add it to your meal</div>');
     for (food of resp){

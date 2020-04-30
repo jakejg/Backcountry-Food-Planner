@@ -152,6 +152,9 @@ ul {
 
 #search-list {
     cursor: pointer;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
 }
 
 .fa-trash {
