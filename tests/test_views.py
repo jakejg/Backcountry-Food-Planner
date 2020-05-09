@@ -115,6 +115,9 @@ class ViewTests(TestCase):
         with app.test_client() as client:
             with client.session_transaction() as sess:
                 sess['user_id'] = self.user.id
+            
+            db.session.add(self.trip)
+            db.session.commit()
                 
             resp = client.get(f'/meal-plan/{self.trip.id}', follow_redirects=True)
             html = resp.get_data(as_text=True)
@@ -128,12 +131,15 @@ class ViewTests(TestCase):
         with app.test_client() as client:
             with client.session_transaction() as sess:
                 sess['user_id'] = self.user.id
-                
+    
+            db.session.add(self.trip)
+            db.session.commit()    
+
             resp = client.get(f'/packing-list/{self.trip.id}', follow_redirects=True)
             
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
-            self.assertIn("Packing List", html)
+            self.assertIn("Total Weight", html)
     
     def test_create_meal(self):
         """Test that a meal can be created from ingredient ids"""
@@ -146,7 +152,7 @@ class ViewTests(TestCase):
                 'title': 'testmeal',
                 'type_': 'Dinner',
             }
-            resp = client.post(f'/meal', data=data, follow_redirects=True)
+            resp = client.post(f'/meals', data=data, follow_redirects=True)
 
             html = resp.get_data(as_text=True)
 
