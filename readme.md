@@ -1,6 +1,6 @@
 # Backcountry Meal Planner
 Vist https://backcountry-meal-planner.herokuapp.com/ to plan the meals for your next backcountry trip.
-Backcountry Meal Planner gives you get detailed nutrition info, packing lists and amounts, and dietary restriction information.
+Backcountry Meal Planner gives you detailed nutrition info, packing lists and amounts, and dietary restriction information.
 
 ## Using the Website
 Enter the start/end dates and number of people for your trip on the homepage. Select from pre-made meals or create your own meal with up to four ingredients. Search for ingredients by keyword and brand. Once the meals have been selected, you will get nutrition info and dietary information such as vegetarain, vegan, or gluten free, for each meal. There is an option to generate a printable packing list with how much to pack for each ingredient. Create an account to save your created meal plans for future reference.
